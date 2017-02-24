@@ -5,6 +5,7 @@
 Proj="${PWD##*/}"
 #Proj="apk_airplan"
 
+
 Clean()
 {
   echo "delete objects"
