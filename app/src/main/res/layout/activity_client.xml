@@ -11,6 +11,11 @@
         android:id="@+id/txtvReport"
         android:text="Report" />
 
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/seekBar" />
+
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
