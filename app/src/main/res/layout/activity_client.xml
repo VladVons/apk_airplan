@@ -93,15 +93,13 @@
             android:id="@+id/txtADC"
             android:layout_weight="1" />
 
-        <TextView
-            android:text="TextView"
-            android:layout_width="141dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView" />
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <Space
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="16dp"
             android:layout_columnSpan="3"
             />
 
@@ -147,7 +145,7 @@
 
         <Space
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="16dp"
             android:layout_columnSpan="3"
             />
 
@@ -171,9 +169,49 @@
             android:id="@+id/sbSMotor1"
             android:layout_weight="1" />
 
+        <TextView
+            android:text="SMotor 2"
+            android:layout_width="118dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/textSMotor2"
+            android:layout_weight="0.05" />
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="112dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtSMotor2"
+            android:layout_weight="0.08" />
+
+        <SeekBar
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/sbSMotor2"
+            android:layout_weight="1" />
+
+        <TextView
+            android:text="SMotor 3"
+            android:layout_width="118dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/textSMotor3"
+            android:layout_weight="0.05" />
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="112dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtSMotor3"
+            android:layout_weight="0.08" />
+
+        <SeekBar
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/sbSMotor3"
+            android:layout_weight="1" />
+
         <Space
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="16dp"
             android:layout_columnSpan="3"
             />
 
