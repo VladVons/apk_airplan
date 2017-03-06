@@ -54,7 +54,7 @@ public class ClientActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client);
 
-        txtvReport = (TextView) findViewById(R.id.txtvReport);
+        txtvReport = (TextView) findViewById(R.id.txtInfo);
         edtServer  = (EditText) findViewById(R.id.edtServer);
         edtPort    = (EditText) findViewById(R.id.edtPort);
 
@@ -75,7 +75,7 @@ public class ClientActivity extends Activity {
 
     public void btnSendOnClick(View view) {
         try {
-            EditText et = (EditText) findViewById(R.id.edtText);
+            EditText et = (EditText) findViewById(R.id.edtSend);
             String str = et.getText().toString();
 
             JSONObject json = new JSONObject();
