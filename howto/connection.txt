@@ -1,0 +1,11 @@
+Error: 
+Android Install on Device Failure [INSTALL_CANCELED_BY_USER]
+
+Android Studio:
+File->Settings->Build,Execution,Deployment->Instant Run -> Disable
+
+Android:
+Settings->About Phone->MIUI Version = click 7 Times
+Settings->Additional Settings->Developer options->Install via USB = ON
+Settings->Additional Settings->Developer options->Debbug->Verify apps over USB = ON
+Settings->Additional Settings->Privacy->Unknown Sources option = ON

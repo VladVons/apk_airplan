@@ -17,7 +17,7 @@ GitAuth()
   git config --global user.email "vladvons@gmail.com"
 
   # no password 
-  git config --global credential.helper 'cache --timeout=36000'
+  git config --global credential.helper 'cache --timeout=360000'
 }
 
 GitCreate()
