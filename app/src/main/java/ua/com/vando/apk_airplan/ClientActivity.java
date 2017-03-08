@@ -3,6 +3,7 @@ package ua.com.vando.apk_airplan;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -42,8 +43,6 @@ public class ClientActivity extends Activity {
     TextView txtvReport;
     EditText edtServer, edtPort;
     private Socket socket = null;
-    private static final String SERVERPORT = "51018";
-    private static final String SERVER_IP = "192.168.2.12";
 
     SensorManager mSensorManager;
     Sensor mSensor;
@@ -58,15 +57,15 @@ public class ClientActivity extends Activity {
         edtServer  = (EditText) findViewById(R.id.edtServer);
         edtPort    = (EditText) findViewById(R.id.edtPort);
 
-        edtServer.setText(SERVER_IP);
-        edtPort.setText(SERVERPORT);
-
-        //https://github.com/akexorcist/Android-Sensor-Gyroscope/blob/master/src/app/akexorcist/sensor_gyroscope/Main.java
+        ////https://github.com/akexorcist/Android-Sensor-Gyroscope/blob/master/src/app/akexorcist/sensor_gyroscope/Main.java
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        //mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
-        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        mSensorManager.registerListener(gyroListener, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        ////mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+        //mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        //mSensorManager.registerListener(gyroListener, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
 
+        Config config = new Config(this);
+        config.LoadView(edtServer, "Server", "192.168.1.1");
+        config.LoadView(edtPort, "Port", "51015");
     }
 
     public void btnConnectOnClick(View view) {
@@ -165,5 +164,13 @@ public class ClientActivity extends Activity {
         mSensorManager.unregisterListener(gyroListener);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        Config config = new Config(this);
+        config.SaveView(edtServer, "Server");
+        config.SaveView(edtPort, "Port");
+    }
 
 }

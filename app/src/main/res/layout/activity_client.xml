@@ -18,7 +18,7 @@
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/edtServer"
-            android:layout_weight="0.86"
+            android:layout_weight="0.68"
             android:hint="000.000.000.000" />
 
         <EditText
@@ -28,13 +28,14 @@
             android:ems="10"
             android:id="@+id/edtPort"
             android:hint="51000"
-            android:layout_weight="0.13" />
+            android:layout_weight="0.05" />
 
         <Button
             android:text="Conn"
             android:layout_width="64dp"
             android:layout_height="wrap_content"
-            android:id="@+id/btnConnect" />
+            android:id="@+id/btnConnect"
+            android:layout_weight="0.17" />
 
     </LinearLayout>
 
@@ -45,17 +46,16 @@
         android:weightSum="1">
 
         <EditText
-            android:layout_width="279dp"
+            android:layout_width="262dp"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/edtSend"
-            android:text='{"cmd":"lamp", "pin":1, "val":1 }'
-            android:layout_weight="0.96" />
+            android:text='{"cmd":"lamp", "pin":1, "val":1 }' />
 
         <Button
             android:text="Send"
-            android:layout_width="65dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btnSend" />
     </LinearLayout>
