@@ -40,10 +40,9 @@ https://guides.codepath.com/android/Sending-and-Receiving-Data-with-Sockets
 http://stackoverflow.com/questions/5893911/android-client-socket-how-to-read-data
 */
 
-public class ClientActivity extends Activity implements SeekBar.OnSeekBarChangeListener {
-    private TextView txtInfo, txtMotor1, txtMotor2;
+public class ClientActivity extends Activity {
+    private TextView txtInfo;
     private EditText edtServer, edtPort;
-    private SeekBar sbMotor1, sbMotor2;
     private Socket socket = null;
 
     SensorManager mSensorManager;
@@ -56,14 +55,8 @@ public class ClientActivity extends Activity implements SeekBar.OnSeekBarChangeL
         setContentView(R.layout.activity_client);
 
         txtInfo    = (TextView) findViewById(R.id.txtInfo);
-        txtMotor1  = (TextView) findViewById(R.id.txtMotor1);
-        txtMotor2  = (TextView) findViewById(R.id.txtMotor2);
-
         edtServer  = (EditText) findViewById(R.id.edtServer);
         edtPort    = (EditText) findViewById(R.id.edtPort);
-
-        sbMotor1 = (SeekBar) findViewById(R.id.sbMotor1);
-        sbMotor2 = (SeekBar) findViewById(R.id.sbMotor2);
 
         ////https://github.com/akexorcist/Android-Sensor-Gyroscope/blob/master/src/app/akexorcist/sensor_gyroscope/Main.java
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -73,25 +66,14 @@ public class ClientActivity extends Activity implements SeekBar.OnSeekBarChangeL
 
         Config config = new Config(this);
         config.LoadView(edtServer, "Server", "192.168.1.1");
-        config.LoadView(edtPort, "Port", "51015");
+        config.LoadView(edtPort,   "Port", "51015");
 
-        sbMotor1.setOnSeekBarChangeListener(this);
-    }
+        new FrmMotorDC(this, R.id.txtMotor1, R.id.sbMotor1);
+        new FrmMotorDC(this, R.id.txtMotor2, R.id.sbMotor2);
 
-    //--- SeekBar
-    @Override
-    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        txtMotor1.setText(String.valueOf(seekBar.getProgress()));
-    }
-
-    @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {
-
-    }
-
-    @Override
-    public void onStopTrackingTouch(SeekBar seekBar) {
-
+        new FrmLamp(this, R.id.txtLampRed,   R.id.cbLampRed);
+        new FrmLamp(this, R.id.txtLampGreen, R.id.cbLampGreen);
+        new FrmLamp(this, R.id.txtLampBlue,  R.id.cbLampBlue);
     }
 
     public void btnConnectOnClick(View view) {

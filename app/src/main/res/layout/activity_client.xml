@@ -222,15 +222,18 @@
             android:id="@+id/textViewRed"
             />
 
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <TextView
+            android:text="TextView"
+            android:layout_width="118dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtLampRed"
+            android:layout_weight="0.05" />
 
         <CheckBox
             android:text="Red"
             android:layout_width="110dp"
             android:layout_height="wrap_content"
-            android:id="@+id/cbRed"
+            android:id="@+id/cbLampRed"
             />
         <TextView
             android:text="Lamp (PIO 12)"
@@ -239,15 +242,18 @@
             android:id="@+id/textViewGreen"
             />
 
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <TextView
+            android:text="TextView"
+            android:layout_width="118dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtLampGreen"
+            android:layout_weight="0.05" />
 
         <CheckBox
             android:text="Green"
             android:layout_width="110dp"
             android:layout_height="wrap_content"
-            android:id="@+id/cbGreen"
+            android:id="@+id/cbLampGreen"
             />
 
         <TextView
@@ -257,15 +263,18 @@
             android:id="@+id/textViewBlue"
             />
 
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <TextView
+            android:text="TextView"
+            android:layout_width="118dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtLampBlue"
+            android:layout_weight="0.05" />
 
         <CheckBox
             android:text="Blue"
             android:layout_width="110dp"
             android:layout_height="wrap_content"
-            android:id="@+id/cbBlue"
+            android:id="@+id/cbLampBlue"
             />
 
 
