@@ -23,9 +23,6 @@
         <activity android:name=".ClientActivity">
         </activity>
 
-        <activity android:name=".ServerActivity">
-        </activity>
-
     </application>
 
 </manifest>

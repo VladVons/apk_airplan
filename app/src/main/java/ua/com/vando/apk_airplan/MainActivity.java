@@ -12,14 +12,12 @@ import android.widget.TextView;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity{
-    TextView txtvHello;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        txtvHello = (TextView) findViewById(R.id.txtv_hello);
+        btnClientOnClick(null);
     }
 
     @Override
@@ -43,34 +41,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void btnClientOnClick(View view) {
-        txtvHello.setText("ClientActivity");
-
         Intent Intent = new Intent(MainActivity.this, ClientActivity.class);
         startActivity(Intent);
-    }
-
-    public void btnServerOnClick(View view) {
-        txtvHello.setText("ServerActivity");
-        Intent Intent = new Intent(MainActivity.this, ServerActivity.class);
-        startActivity(Intent);
-    }
-
-    public void btnInfoOnClick(View view) {
-        //String Ip = "xxx.xxx.xxx.xxx";
-        String Str;
-
-        WifiManager wm = (WifiManager) getSystemService(WIFI_SERVICE);
-        int ipAddress = wm.getConnectionInfo().getIpAddress();
-        if (ipAddress == 0) {
-            Str = "No connection";
-        }else {
-            Str = String.format(Locale.getDefault(), "%d.%d.%d.%d",
-                    (ipAddress & 0xff),
-                    (ipAddress >> 8 & 0xff),
-                    (ipAddress >> 16 & 0xff),
-                    (ipAddress >> 24 & 0xff));
-        }
-
-        txtvHello.setText("IP: " + Str);
     }
  }

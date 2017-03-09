@@ -74,6 +74,10 @@ public class ClientActivity extends Activity {
         new FrmLamp(this, R.id.txtLampRed,   R.id.cbLampRed);
         new FrmLamp(this, R.id.txtLampGreen, R.id.cbLampGreen);
         new FrmLamp(this, R.id.txtLampBlue,  R.id.cbLampBlue);
+
+        String IP = Net.GetOwnIP(this);
+        IP = (IP == "" ? "No connection" : "Current IP " + IP);
+        txtInfo.setText(IP);
     }
 
     public void btnConnectOnClick(View view) {
@@ -108,13 +112,19 @@ public class ClientActivity extends Activity {
         public void run() {
             String Adr = edtServer.getText().toString();
             int Port = Integer.parseInt(edtPort.getText().toString());
+
+            TextView txtInfo1    = (TextView) findViewById(R.id.txtInfo);
+            txtInfo1.setText("ClientThread");
+/*
+            String ConnStat = "Connected";
             try {
                 socket = new Socket(Adr, Port);
             } catch (Exception e) {
                 e.printStackTrace();
-                String Str = String.format(Locale.getDefault(), "%s.%s.%d", e.getMessage(), Adr, Port);
-                txtInfo.setText(Str);
+                ConnStat = String.format(Locale.getDefault(), "%s. %s. %d", e.getMessage(), Adr, Port);
             }
+            txtInfo.setText(ConnStat);
+*/
         }
     }
 
