@@ -18,7 +18,7 @@
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/edtServer"
-            android:layout_weight="0.68"
+            android:layout_weight="0.41"
             android:hint="000.000.000.000" />
 
         <EditText
@@ -28,7 +28,7 @@
             android:ems="10"
             android:id="@+id/edtPort"
             android:hint="51000"
-            android:layout_weight="0.05" />
+            android:layout_weight="0.25" />
 
         <Button
             android:text="Conn"
