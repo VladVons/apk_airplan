@@ -11,6 +11,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 //http://androiddocs.ru/parsing-json-poluchaem-i-razbiraem-json-s-vneshnego-resursa/
@@ -39,9 +40,10 @@ https://guides.codepath.com/android/Sending-and-Receiving-Data-with-Sockets
 http://stackoverflow.com/questions/5893911/android-client-socket-how-to-read-data
 */
 
-public class ClientActivity extends Activity {
-    TextView txtvReport;
-    EditText edtServer, edtPort;
+public class ClientActivity extends Activity implements SeekBar.OnSeekBarChangeListener {
+    private TextView txtInfo, txtMotor1, txtMotor2;
+    private EditText edtServer, edtPort;
+    private SeekBar sbMotor1, sbMotor2;
     private Socket socket = null;
 
     SensorManager mSensorManager;
@@ -53,9 +55,15 @@ public class ClientActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client);
 
-        txtvReport = (TextView) findViewById(R.id.txtInfo);
+        txtInfo    = (TextView) findViewById(R.id.txtInfo);
+        txtMotor1  = (TextView) findViewById(R.id.txtMotor1);
+        txtMotor2  = (TextView) findViewById(R.id.txtMotor2);
+
         edtServer  = (EditText) findViewById(R.id.edtServer);
         edtPort    = (EditText) findViewById(R.id.edtPort);
+
+        sbMotor1 = (SeekBar) findViewById(R.id.sbMotor1);
+        sbMotor2 = (SeekBar) findViewById(R.id.sbMotor2);
 
         ////https://github.com/akexorcist/Android-Sensor-Gyroscope/blob/master/src/app/akexorcist/sensor_gyroscope/Main.java
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -66,6 +74,24 @@ public class ClientActivity extends Activity {
         Config config = new Config(this);
         config.LoadView(edtServer, "Server", "192.168.1.1");
         config.LoadView(edtPort, "Port", "51015");
+
+        sbMotor1.setOnSeekBarChangeListener(this);
+    }
+
+    //--- SeekBar
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        txtMotor1.setText(String.valueOf(seekBar.getProgress()));
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+
     }
 
     public void btnConnectOnClick(View view) {
@@ -105,7 +131,7 @@ public class ClientActivity extends Activity {
             } catch (Exception e) {
                 e.printStackTrace();
                 String Str = String.format(Locale.getDefault(), "%s.%s.%d", e.getMessage(), Adr, Port);
-                txtvReport.setText(Str);
+                txtInfo.setText(Str);
             }
         }
     }
@@ -113,7 +139,7 @@ public class ClientActivity extends Activity {
     public SensorEventListener gyroListener = new SensorEventListener() {
         @Override
         public void onAccuracyChanged(Sensor sensor, int acc) {
-            txtvReport.setText("onAccuracyChanged: ");
+            txtInfo.setText("onAccuracyChanged: ");
         }
 
         @Override
@@ -126,7 +152,7 @@ public class ClientActivity extends Activity {
 
             if (prevAX + prevAY + prevAZ != AX + AY + AZ) {
                 String Str = String.format(Locale.getDefault(), "(X %d) (Y %d) (Z %d)", AX, AY, AZ);
-                txtvReport.setText("onSensorChanged: " + Str);
+                txtInfo.setText("onSensorChanged: " + Str);
 
                 prevAX = AX;
                 prevAY = AY;
