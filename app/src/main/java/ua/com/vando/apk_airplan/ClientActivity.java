@@ -3,15 +3,14 @@ package ua.com.vando.apk_airplan;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
 //http://androiddocs.ru/parsing-json-poluchaem-i-razbiraem-json-s-vneshnego-resursa/
@@ -23,8 +22,11 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Locale;
 
@@ -80,10 +82,6 @@ public class ClientActivity extends Activity {
         txtInfo.setText(IP);
     }
 
-    public void btnConnectOnClick(View view) {
-        new Thread(new ClientThread()).start();
-    }
-
     public void btnSendOnClick(View view) {
         try {
             EditText et = (EditText) findViewById(R.id.edtSend);
@@ -107,24 +105,42 @@ public class ClientActivity extends Activity {
         }
     }
 
+    public void btnConnectOnClick(View view) throws IOException {
+        //Thread thread = new Thread(new ClientThread());
+        //thread.start()
+        byte[] send_data = new byte[1024];
+        String str="test";
+
+        DatagramSocket client_socket = new DatagramSocket(2362);
+        InetAddress IPAddress =  InetAddress.getByName("10.80.1.95");
+        DatagramPacket send_packet = new DatagramPacket(send_data, str.length(), IPAddress, 2362);
+        client_socket.send(send_packet);
+    }
+
     class ClientThread implements Runnable {
         @Override
         public void run() {
             String Adr = edtServer.getText().toString();
+            Adr = "192.168.10.11";
             int Port = Integer.parseInt(edtPort.getText().toString());
 
-            TextView txtInfo1    = (TextView) findViewById(R.id.txtInfo);
-            txtInfo1.setText("ClientThread");
-/*
+            //TextView txtInfo1    = (TextView) findViewById(R.id.txtInfo);
+            //txtInfo.setText("ClientThread");
+            prevAX = 1;
+
             String ConnStat = "Connected";
             try {
+                Log.i("Debug", "inside try1");
                 socket = new Socket(Adr, Port);
+                Log.i("Debug", "inside try2");
             } catch (Exception e) {
                 e.printStackTrace();
                 ConnStat = String.format(Locale.getDefault(), "%s. %s. %d", e.getMessage(), Adr, Port);
+                Log.i("Debug", ConnStat);
             }
-            txtInfo.setText(ConnStat);
-*/
+            Log.i("Debug", "outside try1");
+            //txtInfo.setText(ConnStat);
+
         }
     }
 
