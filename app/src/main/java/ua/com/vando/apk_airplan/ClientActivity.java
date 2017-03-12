@@ -29,6 +29,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 //JSON
 //http://androiddocs.ru/parsing-json-poluchaem-i-razbiraem-json-s-vneshnego-resursa/
@@ -44,8 +45,9 @@ http://stackoverflow.com/questions/5893911/android-client-socket-how-to-read-dat
 
 public class ClientActivity extends Activity {
     private TextView txtInfo;
-    private EditText edtServer, edtPort;
+    private EditText edtServer, edtPort, edtSend;
     private Socket socket = null;
+    SockClient sockClient;
 
     SensorManager mSensorManager;
     Sensor mSensor;
@@ -57,6 +59,7 @@ public class ClientActivity extends Activity {
         setContentView(R.layout.activity_client);
 
         txtInfo    = (TextView) findViewById(R.id.txtInfo);
+        edtSend    = (EditText) findViewById(R.id.edtSend);
         edtServer  = (EditText) findViewById(R.id.edtServer);
         edtPort    = (EditText) findViewById(R.id.edtPort);
 
@@ -80,6 +83,9 @@ public class ClientActivity extends Activity {
         String IP = Net.GetOwnIP(this);
         IP = (IP == "" ? "No connection" : "Current IP " + IP);
         txtInfo.setText(IP);
+
+        sockClient = new SockClient();
+        sockClient.txtInfo = txtInfo;
     }
 
     public void btnSendOnClick(View view) {
@@ -105,14 +111,21 @@ public class ClientActivity extends Activity {
         }
     }
 
+    public void btnConnectOnSend(View view) throws IOException {
+        sockClient.execute(edtSend.getText().toString());
+    }
+
     public void btnConnectOnClick(View view) throws IOException {
         //Thread thread = new Thread(new ClientThread());
         //thread.start()
         byte[] send_data = new byte[1024];
-        String str="test";
+        String str = "{test}";
+        send_data = str.getBytes();
 
-        DatagramSocket client_socket = new DatagramSocket(2362);
-        InetAddress IPAddress =  InetAddress.getByName("10.80.1.95");
+
+        InetAddress IPAddress =  InetAddress.getByName("127.0.0.1");
+        DatagramSocket client_socket = new DatagramSocket(51015, IPAddress);
+
         DatagramPacket send_packet = new DatagramPacket(send_data, str.length(), IPAddress, 2362);
         client_socket.send(send_packet);
     }

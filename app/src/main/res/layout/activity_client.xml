@@ -58,18 +58,19 @@
         android:weightSum="1">
 
         <EditText
+            android:id="@+id/edtSend"
             android:layout_width="262dp"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
             android:ems="10"
-            android:id="@+id/edtSend"
-            android:text='{"cmd":"lamp", "pin":1, "val":1 }' />
+            android:inputType="textPersonName"
+            android:text='{"Cmd":"Test"}' />
 
         <Button
-            android:text="Send"
+            android:id="@+id/btnSend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/btnSend" />
+            android:onClick="btnConnectOnSend"
+            android:text="Send" />
     </LinearLayout>
 
     <Space
