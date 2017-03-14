@@ -84,8 +84,8 @@ public class ClientActivity extends Activity {
         IP = (IP == "" ? "No connection" : "Current IP " + IP);
         txtInfo.setText(IP);
 
-        sockClient = new SockClient();
-        sockClient.txtInfo = txtInfo;
+        //sockClient = new SockClient();
+        //sockClient.txtInfo = txtInfo;
     }
 
     public void btnSendOnClick(View view) {
@@ -112,7 +112,11 @@ public class ClientActivity extends Activity {
     }
 
     public void btnConnectOnSend(View view) throws IOException {
-        sockClient.execute(edtSend.getText().toString());
+        SockClient sockClient = new SockClient("192.168.2.12", 51015);
+        byte[] send_data =  edtSend.getText().toString().getBytes();
+        sockClient.Send(send_data);
+        //Socket socket = new Socket("127.0.0.1", 51015);
+        //sockClient.execute(edtSend.getText().toString());
     }
 
     public void btnConnectOnClick(View view) throws IOException {

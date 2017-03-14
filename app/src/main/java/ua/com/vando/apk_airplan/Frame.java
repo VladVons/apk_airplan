@@ -6,6 +6,9 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.CheckBox;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 class FrmBase {
     protected TextView TextView1;
@@ -14,6 +17,11 @@ class FrmBase {
     public FrmBase (Activity aActivity, int aTextViewID) {
         Activity1 = aActivity;
         TextView1 = (TextView) Activity1.findViewById(aTextViewID);
+    }
+
+    public void Send (String aKey, String aValue) throws JSONException {
+        JSONObject obj = new JSONObject();
+        obj.put(aKey, aValue);
     }
 }
 
