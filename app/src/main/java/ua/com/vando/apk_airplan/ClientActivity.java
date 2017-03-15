@@ -44,6 +44,9 @@ http://stackoverflow.com/questions/5893911/android-client-socket-how-to-read-dat
 */
 
 public class ClientActivity extends Activity {
+    private static int cLampRed = 15, cLampGreen = 12, cLampBlue = 13;
+    private static int cMotorDC1 = 12, cMotorDC2 = 14;
+
     private TextView txtInfo;
     private EditText edtServer, edtPort, edtSend;
     private Socket socket = null;
@@ -70,95 +73,41 @@ public class ClientActivity extends Activity {
         //mSensorManager.registerListener(gyroListener, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
 
         Config config = new Config(this);
-        config.LoadView(edtServer, "Server", "192.168.1.1");
+        config.LoadView(edtServer, "Server", "192.168.4.1");
         config.LoadView(edtPort,   "Port", "51015");
 
-        new FrmMotorDC(this, R.id.txtMotor1, R.id.sbMotor1);
-        new FrmMotorDC(this, R.id.txtMotor2, R.id.sbMotor2);
+        sockClient = new SockClient(edtServer.getText().toString(), Integer.valueOf(edtPort.getText().toString()));
 
-        new FrmLamp(this, R.id.txtLampRed,   R.id.cbLampRed);
-        new FrmLamp(this, R.id.txtLampGreen, R.id.cbLampGreen);
-        new FrmLamp(this, R.id.txtLampBlue,  R.id.cbLampBlue);
+        FrmMotorDC frmMotorDC;
+        frmMotorDC = new FrmMotorDC(this, R.id.txtMotor1, R.id.sbMotor1);
+        frmMotorDC.Init(cMotorDC1, sockClient);
+
+        frmMotorDC = new FrmMotorDC(this, R.id.txtMotor2, R.id.sbMotor2);
+        frmMotorDC.Init(cMotorDC2, sockClient);
+
+        FrmLamp frmLamp;
+        frmLamp = new FrmLamp(this, R.id.txtLampRed,   R.id.cbLampRed);
+        frmLamp.Init(cLampRed, sockClient);;
+
+        frmLamp = new FrmLamp(this, R.id.txtLampGreen, R.id.cbLampGreen);
+        frmLamp.Init(cLampGreen, sockClient);;
+
+        frmLamp = new FrmLamp(this, R.id.txtLampBlue,  R.id.cbLampBlue);
+        frmLamp.Init(cLampBlue, sockClient);;
 
         String IP = Net.GetOwnIP(this);
         IP = (IP == "" ? "No connection" : "Current IP " + IP);
         txtInfo.setText(IP);
 
-        //sockClient = new SockClient();
-        //sockClient.txtInfo = txtInfo;
-    }
+   }
 
     public void btnSendOnClick(View view) {
-        try {
-            EditText et = (EditText) findViewById(R.id.edtSend);
-            String str = et.getText().toString();
-
-            JSONObject json = new JSONObject();
-            json.put("Nombre", str);
-
-            String strj = String.format(Locale.getDefault(), "{\"Type\": \"Func\", \"Name\": \"TAppMan.GetEcho\", \"Arg\": [\"%s\"]}", str);
-
-            PrintWriter out = new PrintWriter(new BufferedWriter(
-                    new OutputStreamWriter(socket.getOutputStream())),
-                    true);
-            out.println(strj);
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        String str = edtSend.getText().toString();
+        sockClient.Send(str.getBytes());
     }
 
-    public void btnConnectOnSend(View view) throws IOException {
-        SockClient sockClient = new SockClient("192.168.2.12", 51015);
-        byte[] send_data =  edtSend.getText().toString().getBytes();
-        sockClient.Send(send_data);
-        //Socket socket = new Socket("127.0.0.1", 51015);
-        //sockClient.execute(edtSend.getText().toString());
-    }
-
-    public void btnConnectOnClick(View view) throws IOException {
-        //Thread thread = new Thread(new ClientThread());
-        //thread.start()
-        byte[] send_data = new byte[1024];
-        String str = "{test}";
-        send_data = str.getBytes();
-
-
-        InetAddress IPAddress =  InetAddress.getByName("127.0.0.1");
-        DatagramSocket client_socket = new DatagramSocket(51015, IPAddress);
-
-        DatagramPacket send_packet = new DatagramPacket(send_data, str.length(), IPAddress, 2362);
-        client_socket.send(send_packet);
-    }
-
-    class ClientThread implements Runnable {
-        @Override
-        public void run() {
-            String Adr = edtServer.getText().toString();
-            Adr = "192.168.10.11";
-            int Port = Integer.parseInt(edtPort.getText().toString());
-
-            //TextView txtInfo1    = (TextView) findViewById(R.id.txtInfo);
-            //txtInfo.setText("ClientThread");
-            prevAX = 1;
-
-            String ConnStat = "Connected";
-            try {
-                Log.i("Debug", "inside try1");
-                socket = new Socket(Adr, Port);
-                Log.i("Debug", "inside try2");
-            } catch (Exception e) {
-                e.printStackTrace();
-                ConnStat = String.format(Locale.getDefault(), "%s. %s. %d", e.getMessage(), Adr, Port);
-                Log.i("Debug", ConnStat);
-            }
-            Log.i("Debug", "outside try1");
-            //txtInfo.setText(ConnStat);
-
-        }
+    public void btnConnOnClick(View view) throws IOException {
+        sockClient = new SockClient(edtServer.getText().toString(), Integer.valueOf(edtPort.getText().toString()));
     }
 
     public SensorEventListener gyroListener = new SensorEventListener() {
@@ -223,5 +172,4 @@ public class ClientActivity extends Activity {
         config.SaveView(edtServer, "Server");
         config.SaveView(edtPort, "Port");
     }
-
 }

@@ -17,24 +17,23 @@ import java.nio.channels.DatagramChannel;
 
 public class SockClient {
     private DatagramSocket Socket;
-    private InetAddress Address;
+    public InetAddress Address;
     private int Port;
 
     //private DatagramChannel Channel;
 
     public SockClient(String aHost, int aPort) {
         Port = aPort;
-
         Address = null;
+
         try {
             Address = InetAddress.getByName(aHost);
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
-
-        try {
             Socket = new DatagramSocket();
+            Socket.setSoTimeout(200);
         } catch (SocketException e) {
+            e.printStackTrace();
+            Log.i("Debug", e.getMessage());
+        } catch (UnknownHostException e) {
             e.printStackTrace();
             Log.i("Debug", e.getMessage());
         }
