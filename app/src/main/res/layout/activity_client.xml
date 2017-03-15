@@ -63,7 +63,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text='{"Cmd":"Test"}' />
+            android:text='{"Cmd":"Test"}'
+            android:layout_weight="0.56" />
 
         <Button
             android:id="@+id/btnSend"
@@ -110,6 +111,25 @@
             />
 
         <TextView
+            android:text="Gravity"
+            android:layout_width="112dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtGravity1"/>
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="112dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtGravity"/>
+
+        <CheckBox
+            android:id="@+id/cbBind"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bind"
+            />
+
+        <TextView
             android:text="Motor 1"
             android:layout_width="118dp"
             android:layout_height="wrap_content"
@@ -124,7 +144,7 @@
             android:layout_weight="0.08" />
 
         <SeekBar
-            android:layout_width="119dp"
+            android:layout_width="136dp"
             android:layout_height="wrap_content"
             android:id="@+id/sbMotor1"
             android:layout_weight="1" />
@@ -144,7 +164,7 @@
             android:layout_weight="0.08" />
 
         <SeekBar
-            android:layout_width="120dp"
+            android:layout_width="136dp"
             android:layout_height="wrap_content"
             android:id="@+id/sbMotor2"
             android:layout_weight="1" />
@@ -170,10 +190,11 @@
             android:layout_weight="0.08" />
 
         <SeekBar
-            android:layout_width="119dp"
-            android:layout_height="wrap_content"
             android:id="@+id/sbSMotor1"
-            android:layout_weight="1" />
+            android:layout_width="135dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="false" />
 
         <TextView
             android:text="SMotor 2"
@@ -190,7 +211,7 @@
             android:layout_weight="0.08" />
 
         <SeekBar
-            android:layout_width="118dp"
+            android:layout_width="135dp"
             android:layout_height="wrap_content"
             android:id="@+id/sbSMotor2"
             android:layout_weight="1" />
@@ -210,7 +231,7 @@
             android:layout_weight="0.08" />
 
         <SeekBar
-            android:layout_width="118dp"
+            android:layout_width="134dp"
             android:layout_height="wrap_content"
             android:id="@+id/sbSMotor3"
             android:layout_weight="1" />
@@ -237,7 +258,7 @@
 
         <CheckBox
             android:text="Red"
-            android:layout_width="110dp"
+            android:layout_width="134dp"
             android:layout_height="wrap_content"
             android:id="@+id/cbLampRed"
             />
@@ -257,7 +278,7 @@
 
         <CheckBox
             android:text="Green"
-            android:layout_width="110dp"
+            android:layout_width="134dp"
             android:layout_height="wrap_content"
             android:id="@+id/cbLampGreen"
             />
@@ -278,7 +299,7 @@
 
         <CheckBox
             android:text="Blue"
-            android:layout_width="110dp"
+            android:layout_width="134dp"
             android:layout_height="wrap_content"
             android:id="@+id/cbLampBlue"
             />

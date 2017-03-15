@@ -54,11 +54,12 @@ public class SockClient {
             DatagramPacket Packet = aParams[0];
             try {
                 Socket.send(Packet);
-                Socket.receive(Packet);
+                //Socket.receive(Packet);
             } catch (IOException e) {
                 e.printStackTrace();
                 Log.i("Debug", e.getMessage());
             }
+
             return Packet;
         }
 

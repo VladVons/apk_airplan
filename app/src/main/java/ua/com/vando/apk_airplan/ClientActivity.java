@@ -10,26 +10,13 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
-//http://androiddocs.ru/parsing-json-poluchaem-i-razbiraem-json-s-vneshnego-resursa/
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 //JSON
 //http://androiddocs.ru/parsing-json-poluchaem-i-razbiraem-json-s-vneshnego-resursa/
@@ -46,15 +33,18 @@ http://stackoverflow.com/questions/5893911/android-client-socket-how-to-read-dat
 public class ClientActivity extends Activity {
     private static int cLampRed = 15, cLampGreen = 12, cLampBlue = 13;
     private static int cMotorDC1 = 12, cMotorDC2 = 14;
+    private static int cMaxSeekBar = 1023, cMaxGravity = 10;
 
-    private TextView txtInfo;
+    private TextView txtInfo, txtGravity;
     private EditText edtServer, edtPort, edtSend;
-    private Socket socket = null;
+    private SeekBar sbMotor1, sbMotor2;
+    private CheckBox cbBind;
+
     SockClient sockClient;
 
     SensorManager mSensorManager;
     Sensor mSensor;
-    int prevAX, prevAY, prevAZ;
+    int prevAX, prevAY;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,15 +52,19 @@ public class ClientActivity extends Activity {
         setContentView(R.layout.activity_client);
 
         txtInfo    = (TextView) findViewById(R.id.txtInfo);
+        txtGravity = (TextView) findViewById(R.id.txtGravity);
         edtSend    = (EditText) findViewById(R.id.edtSend);
         edtServer  = (EditText) findViewById(R.id.edtServer);
         edtPort    = (EditText) findViewById(R.id.edtPort);
 
+        sbMotor1   = (SeekBar)  findViewById(R.id.sbMotor1);
+        sbMotor2   = (SeekBar)  findViewById(R.id.sbMotor2);
+        cbBind     = (CheckBox) findViewById(R.id.cbBind);
+
         ////https://github.com/akexorcist/Android-Sensor-Gyroscope/blob/master/src/app/akexorcist/sensor_gyroscope/Main.java
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        ////mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
-        //mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        //mSensorManager.registerListener(gyroListener, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mSensorManager.registerListener(gyroListener, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
 
         Config config = new Config(this);
         config.LoadView(edtServer, "Server", "192.168.4.1");
@@ -98,7 +92,6 @@ public class ClientActivity extends Activity {
         String IP = Net.GetOwnIP(this);
         IP = (IP == "" ? "No connection" : "Current IP " + IP);
         txtInfo.setText(IP);
-
    }
 
     public void btnSendOnClick(View view) {
@@ -110,10 +103,18 @@ public class ClientActivity extends Activity {
         sockClient = new SockClient(edtServer.getText().toString(), Integer.valueOf(edtPort.getText().toString()));
     }
 
-    public SensorEventListener gyroListener = new SensorEventListener() {
+    private SensorEventListener gyroListener = new SensorEventListener() {
         @Override
         public void onAccuracyChanged(Sensor sensor, int acc) {
-            txtInfo.setText("onAccuracyChanged: ");
+            //txtInfo.setText("onAccuracyChanged: ");
+        }
+
+        private int InRange(int aValue, int aMin, int aMax) {
+            if (aValue < aMin)
+                aValue = aMin;
+            if (aValue > aMax)
+                aValue = aMax;
+            return aValue;
         }
 
         @Override
@@ -122,32 +123,25 @@ public class ClientActivity extends Activity {
 
             int AX = Math.round(event.values[0] * 1);
             int AY = Math.round(event.values[1] * 1);
-            int AZ = Math.round(event.values[2] * 1);
 
-            if (prevAX + prevAY + prevAZ != AX + AY + AZ) {
-                String Str = String.format(Locale.getDefault(), "(X %d) (Y %d) (Z %d)", AX, AY, AZ);
-                txtInfo.setText("onSensorChanged: " + Str);
-
+            if (prevAX != AX || prevAY != AY) {
                 prevAX = AX;
                 prevAY = AY;
-                prevAZ = AZ;
 
-                if (socket != null) {
-                    try {
-                        String strj = String.format(Locale.getDefault(), "{\"Type\": \"Func\", \"Name\": \"TAppMan.GetEcho\", \"Arg\": [\"%s\"]}", Str);
+                int HalfGravity = cMaxGravity / 2;
+                int AY2 = InRange(AY, -HalfGravity, HalfGravity);
+                int AX2 = InRange(AX, -HalfGravity, HalfGravity);
 
-                        PrintWriter out = new PrintWriter(new BufferedWriter(
-                                new OutputStreamWriter(socket.getOutputStream())),
-                                true);
-                        out.println(strj);
-                    } catch (UnknownHostException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                int PogressY = (cMaxSeekBar / 2) + (cMaxSeekBar / cMaxGravity * AY2);
+                int PogressX = (cMaxSeekBar / cMaxGravity * AX2);
+
+                if (cbBind.isChecked()) {
+                    sbMotor1.setProgress(InRange(PogressY + PogressX, 0, cMaxSeekBar));
+                    sbMotor2.setProgress(InRange(PogressY - PogressX, 0, cMaxSeekBar));
                 }
+
+                String Str = String.format(Locale.getDefault(), "(X=%d) (Y=%d)", AX, AY);
+                txtGravity.setText(Str);
             }
         }
     };
