@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <PreferenceCategory
+            android:title="Server">
+
+        <EditTextPreference
+            android:defaultValue="192.168.4.1"
+            android:dialogTitle="Address"
+            android:inputType="textUri"
+            android:key="preference_server_address"
+            android:singleLine="true"
+            android:title="Server address" />
+
+        <EditTextPreference
+            android:defaultValue="51015"
+            android:dialogTitle="Port"
+            android:key="preference_server_port"
+            android:maxLength="5"
+            android:numeric="integer"
+            android:singleLine="true"
+            android:title="Server port" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Misc">
+
+    </PreferenceCategory>
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="preference_server_gravitybind"
+        android:title="Gravity bind" />
+
+</PreferenceScreen>

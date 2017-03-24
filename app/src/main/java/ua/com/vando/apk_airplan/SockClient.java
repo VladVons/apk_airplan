@@ -12,49 +12,75 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.nio.channels.DatagramChannel;
+import java.util.concurrent.TimeUnit;
 
-//https://github.com/wouterverweirder/AIR-Mobile-UDP-Extension/blob/master/native/android/UDPSocketAndroidLibrary/src/be/aboutme/nativeExtensions/udp/UDPSocketAdapter.java
+// https://github.com/wouterverweirder/AIR-Mobile-UDP-Extension/blob/master/native/android/UDPSocketAndroidLibrary/src/be/aboutme/nativeExtensions/udp/UDPSocketAdapter.java
 
 public class SockClient {
-    private DatagramSocket Socket;
-    public InetAddress Address;
+    private String Address;
     private int Port;
 
-    //private DatagramChannel Channel;
+    public SockClient(String aAddress, int aPort) {
+        Address = aAddress;
+        Port    = aPort;
+    }
 
-    public SockClient(String aHost, int aPort) {
-        Port = aPort;
-        Address = null;
-
-        try {
-            Address = InetAddress.getByName(aHost);
-            Socket = new DatagramSocket();
-            Socket.setSoTimeout(200);
-        } catch (SocketException e) {
-            e.printStackTrace();
-            Log.i("Debug", e.getMessage());
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-            Log.i("Debug", e.getMessage());
-        }
+    public boolean Check() {
+        boolean Result = false;
+        Result = new AsyncCheck().execute();
+        return Result;
     }
 
     public void Send(byte[] aData) {
-        DatagramPacket Packet = new DatagramPacket(aData, aData.length, Address, Port);
-        new AsyncSockClient().execute(Packet);
+        new AsyncSend().execute(aData);
     }
 
     public void OnReceive(String aString) {
 
     }
 
-    private class AsyncSockClient extends AsyncTask<DatagramPacket, String, DatagramPacket> {
+    private class AsyncCheck extends AsyncTask<Void, Void, Boolean> {
         @Override
-        protected DatagramPacket doInBackground(DatagramPacket... aParams) {
-            DatagramPacket Packet = aParams[0];
+        protected Boolean doInBackground(Void... params) {
+            boolean Result = false;
             try {
+                Result = InetAddress.getByName(Address).isReachable(1000);
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.i("Debug", e.getMessage());
+            }
+
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            return true;
+        }
+    }
+
+    private class AsyncSend extends AsyncTask<byte[], String, DatagramPacket> {
+        @Override
+        protected DatagramPacket doInBackground(byte[]... aParams) {
+            byte[] aData = aParams[0];
+            DatagramSocket Socket;
+            DatagramPacket Packet = null;
+
+            try {
+                InetAddress IAddress = InetAddress.getByName(Address);
+                Packet = new DatagramPacket(aData, aData.length, IAddress, Port);
+
+                Socket = new DatagramSocket();
+                Socket.setSoTimeout(200);
                 Socket.send(Packet);
                 //Socket.receive(Packet);
+            } catch (SocketException e) {
+                e.printStackTrace();
+                Log.i("Debug", e.getMessage());
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+                Log.i("Debug", e.getMessage());
             } catch (IOException e) {
                 e.printStackTrace();
                 Log.i("Debug", e.getMessage());

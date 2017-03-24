@@ -2,7 +2,6 @@ package ua.com.vando.apk_airplan;
 
 import android.app.Activity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.CheckBox;

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">apk_airplan</string>
+    <string name="title_activity_preferences">Preferences</string>
 </resources>

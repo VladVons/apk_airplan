@@ -18,7 +18,7 @@ interface GravityListener {
 
 
 public class Gravity {
-    private List gravityListener = new ArrayList();
+    private List Listeners = new ArrayList();
     private SensorManager mSensorManager;
     private Sensor mSensor;
     private int prevAX, prevAY;
@@ -39,7 +39,7 @@ public class Gravity {
     }
 
     public void registerListener(GravityListener aGravityListener) {
-        gravityListener.add(aGravityListener);
+        Listeners.add(aGravityListener);
     }
 
     private SensorEventListener Listener = new SensorEventListener() {
@@ -52,7 +52,7 @@ public class Gravity {
                 prevAX = AX;
                 prevAY = AY;
 
-                for (Object name : gravityListener) {
+                for (Object name : Listeners) {
                     ((GravityListener)name).doEvent(AX, AY);
                 }
             }

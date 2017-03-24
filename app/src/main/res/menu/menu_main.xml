@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Client"
-        android:id="@+id/action_client"
-        android:checkable="false" />
-    <item android:title="Server"
-        android:id="@+id/action_server" />
+    <item
+        android:id="@+id/action_preference"
+        android:title="Preferences" />
+    <item
+        android:id="@+id/action_about"
+        android:title="About" />
+    <item
+        android:id="@+id/action_exit"
+        android:title="Exit" />
 </menu>

@@ -10,14 +10,4 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="ua.com.vando.apk_airplan.MainActivity">
 
-    <Button
-        android:id="@+id/btnClient"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/btnServer"
-        android:layout_alignStart="@+id/btnServer"
-        android:layout_below="@+id/btnServer"
-        android:onClick="btnClientOnClick"
-        android:text="Client" />
-
 </RelativeLayout>

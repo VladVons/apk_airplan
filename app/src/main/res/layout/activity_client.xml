@@ -24,40 +24,6 @@
         android:weightSum="1">
 
         <EditText
-            android:layout_width="105dp"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:id="@+id/edtServer"
-            android:layout_weight="0.41"
-            android:hint="000.000.000.000" />
-
-        <EditText
-            android:layout_width="59dp"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:id="@+id/edtPort"
-            android:hint="51000"
-            android:layout_weight="0.34" />
-
-        <Button
-            android:id="@+id/btnConn"
-            android:layout_width="64dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.17"
-            android:onClick="btnConnOnClick"
-            android:text="Conn" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="1">
-
-        <EditText
             android:id="@+id/edtSend"
             android:layout_width="262dp"
             android:layout_height="wrap_content"
@@ -95,7 +61,7 @@
 
         <TextView
             android:text="ADC"
-            android:layout_width="wrap_content"
+            android:layout_width="87dp"
             android:layout_height="wrap_content"
             android:id="@+id/txtADC"
             android:layout_weight="1" />
@@ -111,60 +77,41 @@
             />
 
         <TextView
-            android:text="Gravity"
-            android:layout_width="112dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/txtGravity1"/>
-
-        <TextView
-            android:text="TextView"
-            android:layout_width="112dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/txtGravity"/>
-
-        <CheckBox
-            android:id="@+id/cbBind"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Bind"
-            />
-
-        <TextView
             android:text="Motor 1"
-            android:layout_width="118dp"
+            android:layout_width="96dp"
             android:layout_height="wrap_content"
             android:id="@+id/textMotor1"
             android:layout_weight="0.05" />
 
         <TextView
             android:text="TextView"
-            android:layout_width="112dp"
+            android:layout_width="90dp"
             android:layout_height="wrap_content"
             android:id="@+id/txtMotor1"
             android:layout_weight="0.08" />
 
         <SeekBar
-            android:layout_width="136dp"
+            android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:id="@+id/sbMotor1"
             android:layout_weight="1" />
 
         <TextView
             android:text="Motor 2"
-            android:layout_width="118dp"
+            android:layout_width="96dp"
             android:layout_height="wrap_content"
             android:id="@+id/textMotor2"
             android:layout_weight="0.05" />
 
         <TextView
             android:text="TextView"
-            android:layout_width="112dp"
+            android:layout_width="91dp"
             android:layout_height="wrap_content"
             android:id="@+id/txtMotor2"
             android:layout_weight="0.08" />
 
         <SeekBar
-            android:layout_width="136dp"
+            android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:id="@+id/sbMotor2"
             android:layout_weight="1" />
@@ -177,61 +124,61 @@
 
         <TextView
             android:text="SMotor 1"
-            android:layout_width="118dp"
+            android:layout_width="96dp"
             android:layout_height="wrap_content"
             android:id="@+id/textSMotor1"
             android:layout_weight="0.05" />
 
         <TextView
             android:text="TextView"
-            android:layout_width="112dp"
+            android:layout_width="90dp"
             android:layout_height="wrap_content"
             android:id="@+id/txtSMotor1"
             android:layout_weight="0.08" />
 
         <SeekBar
             android:id="@+id/sbSMotor1"
-            android:layout_width="135dp"
+            android:layout_width="181dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:clickable="false" />
 
         <TextView
             android:text="SMotor 2"
-            android:layout_width="118dp"
+            android:layout_width="96dp"
             android:layout_height="wrap_content"
             android:id="@+id/textSMotor2"
             android:layout_weight="0.05" />
 
         <TextView
             android:text="TextView"
-            android:layout_width="112dp"
+            android:layout_width="90dp"
             android:layout_height="wrap_content"
             android:id="@+id/txtSMotor2"
             android:layout_weight="0.08" />
 
         <SeekBar
-            android:layout_width="135dp"
+            android:layout_width="181dp"
             android:layout_height="wrap_content"
             android:id="@+id/sbSMotor2"
             android:layout_weight="1" />
 
         <TextView
             android:text="SMotor 3"
-            android:layout_width="118dp"
+            android:layout_width="97dp"
             android:layout_height="wrap_content"
             android:id="@+id/textSMotor3"
             android:layout_weight="0.05" />
 
         <TextView
             android:text="TextView"
-            android:layout_width="112dp"
+            android:layout_width="90dp"
             android:layout_height="wrap_content"
             android:id="@+id/txtSMotor3"
             android:layout_weight="0.08" />
 
         <SeekBar
-            android:layout_width="134dp"
+            android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:id="@+id/sbSMotor3"
             android:layout_weight="1" />
@@ -251,7 +198,7 @@
 
         <TextView
             android:text="TextView"
-            android:layout_width="118dp"
+            android:layout_width="92dp"
             android:layout_height="wrap_content"
             android:id="@+id/txtLampRed"
             android:layout_weight="0.05" />
@@ -271,7 +218,7 @@
 
         <TextView
             android:text="TextView"
-            android:layout_width="118dp"
+            android:layout_width="92dp"
             android:layout_height="wrap_content"
             android:id="@+id/txtLampGreen"
             android:layout_weight="0.05" />
@@ -292,7 +239,7 @@
 
         <TextView
             android:text="TextView"
-            android:layout_width="118dp"
+            android:layout_width="96dp"
             android:layout_height="wrap_content"
             android:id="@+id/txtLampBlue"
             android:layout_weight="0.05" />

@@ -18,18 +18,18 @@ public class Config{
         return sPrefs.getString(aKey, aDef);
     }
 
-    void SaveStr(String aKey, String aValue) {
+    public void SaveStr(String aKey, String aValue) {
         SharedPreferences.Editor editor = sPrefs.edit();
         editor.putString(aKey, aValue);
         editor.commit();
     }
 
-    void LoadView(TextView aTextView, String aKey, String aDef) {
+    public void LoadView(TextView aTextView, String aKey, String aDef) {
         String Str = LoadStr(aKey, aDef);
         aTextView.setText(Str);
     }
 
-    void SaveView(TextView aTextView, String aKey) {
+    public void SaveView(TextView aTextView, String aKey) {
         String Str =  aTextView.getText().toString();
         //String aKey = aTextView.getResources().getResourceName(aTextView.getId());
         SaveStr(aKey, Str);
