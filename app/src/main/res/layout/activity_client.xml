@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1"
@@ -111,9 +112,9 @@
             android:layout_weight="0.08" />
 
         <SeekBar
+            android:id="@+id/sbMotor2"
             android:layout_width="180dp"
             android:layout_height="wrap_content"
-            android:id="@+id/sbMotor2"
             android:layout_weight="1" />
 
         <Space
@@ -141,7 +142,10 @@
             android:layout_width="181dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:clickable="false" />
+            android:clickable="false"
+            android:contextClickable="false"
+            android:enabled="false"
+            android:visibility="gone" />
 
         <TextView
             android:text="SMotor 2"
@@ -158,10 +162,12 @@
             android:layout_weight="0.08" />
 
         <SeekBar
+            android:id="@+id/sbSMotor2"
             android:layout_width="181dp"
             android:layout_height="wrap_content"
-            android:id="@+id/sbSMotor2"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:enabled="false"
+            android:visibility="invisible" />
 
         <TextView
             android:text="SMotor 3"
@@ -178,10 +184,12 @@
             android:layout_weight="0.08" />
 
         <SeekBar
+            android:id="@+id/sbSMotor3"
             android:layout_width="180dp"
             android:layout_height="wrap_content"
-            android:id="@+id/sbSMotor3"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:enabled="false"
+            android:visibility="invisible" />
 
         <Space
             android:layout_width="wrap_content"

@@ -27,7 +27,7 @@ public class SockClient {
 
     public boolean Check() {
         boolean Result = false;
-        Result = new AsyncCheck().execute();
+        //Result = new AsyncCheck().execute();
         return Result;
     }
 

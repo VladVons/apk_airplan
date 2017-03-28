@@ -6,6 +6,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.CheckBox;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,15 +25,17 @@ class FrmBase {
 
     public void Send () {
         if (sockClient != null) {
-            sockClient.Send(json.toString().getBytes());
+            JSONArray ja = new JSONArray();
+            ja.put(json);
+            sockClient.Send(ja.toString().getBytes());
         }
     }
 
-    public void Init(int aNo, SockClient aSockClient) {
+    public void Init(int aPin, SockClient aSockClient) {
         sockClient = aSockClient;
 
         try {
-            json.put("No", aNo);
+            json.put("Item", aPin);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -83,11 +86,22 @@ class FrmMotorDC extends FrmMotorBase {
         TextView1.setText("Max =" + String.valueOf(cMaxValue));
 
         try {
-            json.put("Name", "MotorDC");
+            json.put("Name", "SetPwmFreq");
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
+
+    public void Init(int aPinA, int aPinB, SockClient aSockClient) {
+        sockClient = aSockClient;
+
+        try {
+            json.put("Item", aNo);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
 
 
@@ -101,7 +115,7 @@ class FrmLamp extends FrmBase implements CheckBox.OnClickListener{
         CheckBox1.setOnClickListener(this);
 
         try {
-            json.put("Name", "Lamp");
+            json.put("Name", "SetPin");
         } catch (JSONException e) {
             e.printStackTrace();
         }

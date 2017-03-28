@@ -18,7 +18,7 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     private static int cLampRed = 15, cLampGreen = 12, cLampBlue = 13;
-    private static int cMotorDC1 = 12, cMotorDC2 = 14;
+    private static int cMotorDC1A = 12, cMotorDC1B = 13, cMotorDC2 = 14;
     private static int cPreferencesCode = 1;
 
     private boolean prefGravityBind;
@@ -55,10 +55,10 @@ public class MainActivity extends AppCompatActivity {
 
         FrmMotorDC frmMotorDC;
         frmMotorDC = new FrmMotorDC(this, R.id.txtMotor1, R.id.sbMotor1);
-        frmMotorDC.Init(cMotorDC1, sockClient);
+        frmMotorDC.Init(cMotorDC1A, sockClient);
 
-        frmMotorDC = new FrmMotorDC(this, R.id.txtMotor2, R.id.sbMotor2);
-        frmMotorDC.Init(cMotorDC2, sockClient);
+        //frmMotorDC = new FrmMotorDC(this, R.id.txtMotor2, R.id.sbMotor2);
+        //frmMotorDC.Init(cMotorDC2, sockClient);
 
         FrmLamp frmLamp;
         frmLamp = new FrmLamp(this, R.id.txtLampRed,   R.id.cbLampRed);
@@ -128,10 +128,10 @@ public class MainActivity extends AppCompatActivity {
 
         // ???
         //prefPort = Integer.parseInt(sharedPreferences.getInt("preference_server_port", 51016);
-        String Value = sharedPreferences.getString("preference_server_port", "51016");
+        String Value = sharedPreferences.getString("preference_server_port", "51015");
         prefPort        = Integer.parseInt(Value);
 
-        prefServer      = sharedPreferences.getString("preference_server_address", "192.168.4.2");
+        prefServer      = sharedPreferences.getString("preference_server_address", "192.168.4.1");
         prefGravityBind = sharedPreferences.getBoolean("preference_gravitybind", false);
     }
 
