@@ -13,12 +13,15 @@ import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 //
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity {
-    private static int cLampRed = 15, cLampGreen = 12, cLampBlue = 13;
-    private static int cMotorDC1A = 12, cMotorDC1B = 13, cMotorDC2 = 14;
+    private static int cLampRed = 15, cLampGreen = 12, cLampBlue = 13, cLampSys = 02;
+    private static int cMotorDC1A = 12, cMotorDC1B = 13, cMotorDC2A = 14, cMotorDC2B = 15;
     private static int cPreferencesCode = 1;
 
     private boolean prefGravityBind;
@@ -55,10 +58,10 @@ public class MainActivity extends AppCompatActivity {
 
         FrmMotorDC frmMotorDC;
         frmMotorDC = new FrmMotorDC(this, R.id.txtMotor1, R.id.sbMotor1);
-        frmMotorDC.Init(cMotorDC1A, sockClient);
+        frmMotorDC.Init(cMotorDC1A, cMotorDC1B, sockClient);
 
-        //frmMotorDC = new FrmMotorDC(this, R.id.txtMotor2, R.id.sbMotor2);
-        //frmMotorDC.Init(cMotorDC2, sockClient);
+        frmMotorDC = new FrmMotorDC(this, R.id.txtMotor2, R.id.sbMotor2);
+        frmMotorDC.Init(cMotorDC2A, cMotorDC2B, sockClient);
 
         FrmLamp frmLamp;
         frmLamp = new FrmLamp(this, R.id.txtLampRed,   R.id.cbLampRed);
@@ -69,6 +72,9 @@ public class MainActivity extends AppCompatActivity {
 
         frmLamp = new FrmLamp(this, R.id.txtLampBlue,  R.id.cbLampBlue);
         frmLamp.Init(cLampBlue, sockClient);;
+
+        frmLamp = new FrmLamp(this, R.id.txtLampSys,  R.id.cbLampSys);
+        frmLamp.Init(cLampSys, sockClient);;
 
         String IP = Util.GetOwnIP(this);
         IP = (IP == "" ? "No connection" : "Current IP " + IP);
@@ -93,9 +99,12 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void btnSendOnClick(View view) {
+    public void btnSendOnClick(View view) throws JSONException {
         String str = edtSend.getText().toString();
-        sockClient.Send(str.getBytes());
+        JSONObject JO = new JSONObject(str);
+        sockClient.Clear();
+        sockClient.Add(JO);
+        sockClient.Send();
     }
 
     private GravityListener GravityMotorDC  = new GravityListener() {

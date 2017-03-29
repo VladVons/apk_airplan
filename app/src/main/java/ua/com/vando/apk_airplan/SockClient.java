@@ -4,6 +4,10 @@ package ua.com.vando.apk_airplan;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.DatagramPacket;
@@ -19,10 +23,60 @@ import java.util.concurrent.TimeUnit;
 public class SockClient {
     private String Address;
     private int Port;
+    private JSONArray Data;
 
     public SockClient(String aAddress, int aPort) {
         Address = aAddress;
         Port    = aPort;
+        Clear();
+    }
+
+    public void Clear() {
+        Data = new JSONArray();
+    }
+
+    public void Add(JSONObject aData) {
+        Data.put(aData);
+    }
+
+    public void AddFunc(String aName, JSONArray aArgs) {
+        JSONObject JO = new JSONObject();
+        try {
+            JO.put("Func", aName);
+            JO.put("Args", aArgs);
+            Data.put(JO);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void AddFuncArr(String aName, int aPar1) {
+        JSONArray JA = new JSONArray();
+        JA.put(aPar1);
+        AddFunc(aName, JA);
+    }
+
+    public void AddFuncArr(String aName, int aPar1, int aPar2) {
+        JSONArray JA = new JSONArray();
+        JA.put(aPar1);
+        JA.put(aPar2);
+        AddFunc(aName, JA);
+    }
+
+    public void SetPin(int aPin, int aValue) {
+        AddFuncArr("SetPin",  aPin, aValue);
+    }
+
+    public void SetPwmOff(int aPin) {
+        AddFuncArr("SetPwmOff", aPin);
+    }
+
+    public void SetPwmFreq(int aPin, int aValue) {
+        AddFuncArr("SetPwmFreq", aPin, aValue);
+    }
+
+    public void SetPwmDuty(int aPin, int aValue) {
+        AddFuncArr("SetPwmDuty", aPin, aValue);
     }
 
     public boolean Check() {
@@ -31,8 +85,9 @@ public class SockClient {
         return Result;
     }
 
-    public void Send(byte[] aData) {
-        new AsyncSend().execute(aData);
+    public void Send() {
+        new AsyncSend().execute(Data.toString().getBytes());
+        Clear();
     }
 
     public void OnReceive(String aString) {

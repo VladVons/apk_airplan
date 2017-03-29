@@ -28,7 +28,7 @@
     </PreferenceCategory>
     <CheckBoxPreference
         android:defaultValue="false"
-        android:key="preference_server_gravitybind"
+        android:key="preference_gravitybind"
         android:title="Gravity bind" />
 
 </PreferenceScreen>

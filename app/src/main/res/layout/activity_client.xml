@@ -28,10 +28,10 @@
             android:id="@+id/edtSend"
             android:layout_width="262dp"
             android:layout_height="wrap_content"
+            android:layout_weight="0.56"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text='{"Cmd":"Test"}'
-            android:layout_weight="0.56" />
+            android:text='{"Func":"SetPin", "Args":[12,1]}' />
 
         <Button
             android:id="@+id/btnSend"
@@ -92,7 +92,7 @@
             android:layout_weight="0.08" />
 
         <SeekBar
-            android:layout_width="180dp"
+            android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:id="@+id/sbMotor1"
             android:layout_weight="1" />
@@ -113,7 +113,7 @@
 
         <SeekBar
             android:id="@+id/sbMotor2"
-            android:layout_width="180dp"
+            android:layout_width="169dp"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
 
@@ -194,15 +194,13 @@
         <Space
             android:layout_width="wrap_content"
             android:layout_height="16dp"
-            android:layout_columnSpan="3"
-            />
+            android:layout_columnSpan="3" />
 
         <TextView
             android:text="Lamp (PIO 15)"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textViewRed"
-            />
+            android:id="@+id/textViewRed"/>
 
         <TextView
             android:text="TextView"
@@ -215,14 +213,12 @@
             android:text="Red"
             android:layout_width="134dp"
             android:layout_height="wrap_content"
-            android:id="@+id/cbLampRed"
-            />
+            android:id="@+id/cbLampRed"/>
         <TextView
             android:text="Lamp (PIO 12)"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textViewGreen"
-            />
+            android:id="@+id/textViewGreen"/>
 
         <TextView
             android:text="TextView"
@@ -235,15 +231,13 @@
             android:text="Green"
             android:layout_width="134dp"
             android:layout_height="wrap_content"
-            android:id="@+id/cbLampGreen"
-            />
+            android:id="@+id/cbLampGreen"/>
 
         <TextView
             android:text="Lamp (PIO 13)"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textViewBlue"
-            />
+            android:id="@+id/textViewBlue"/>
 
         <TextView
             android:text="TextView"
@@ -256,10 +250,26 @@
             android:text="Blue"
             android:layout_width="134dp"
             android:layout_height="wrap_content"
-            android:id="@+id/cbLampBlue"
-            />
+            android:id="@+id/cbLampBlue"/>
 
+        <TextView
+            android:text="Lamp (PIO 02)"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewSys"/>
 
+        <TextView
+            android:text="TextView"
+            android:layout_width="96dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtLampSys"
+            android:layout_weight="0.05" />
+
+        <CheckBox
+            android:text="Blue"
+            android:layout_width="134dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/cbLampSys"/>
     </GridLayout>
 
 
