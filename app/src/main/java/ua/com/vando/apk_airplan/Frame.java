@@ -84,13 +84,19 @@ class FrmMotorBase extends FrmBase implements SeekBar.OnSeekBarChangeListener{
 
 
 class FrmMotorDC extends FrmMotorBase {
-    private static int cMaxValue = 1023;
+    private int Min, Max;
 
     public FrmMotorDC (Activity aActivity, int aTextViewID, int aSeekBarID) {
         super(aActivity, aTextViewID, aSeekBarID);
+        SetRange(0, 999);
+    }
 
-        SeekBar1.setMax(cMaxValue);
-        TextView1.setText("Max =" + String.valueOf(cMaxValue));
+    public void SetRange(int aMin, int aMax) {
+        Min = aMin;
+        Max = aMax;
+
+        SeekBar1.setMax(aMax);
+        TextView1.setText("Max =" + String.valueOf(Max));
     }
 
     public void Init(int aPinA, int aPinB, SockClient aSockClient) {
@@ -114,11 +120,10 @@ class FrmMotorDC extends FrmMotorBase {
         }
 
         int Speed = Math.abs(progress);
-        if (Speed > 1000)
-            Speed = 1000;
+        if (Speed > 999)
+            Speed = 999;
         if (Speed == 0)
             Speed = 1;
-
 
         sockClient.Clear();
         sockClient.SetPwmOff(Pin_B);

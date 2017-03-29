@@ -50,34 +50,60 @@ public class SockClient {
         }
     }
 
-    public void AddFuncArr(String aName, int aPar1) {
+    public void AddFuncVal(String aName, int aPin) {
         JSONArray JA = new JSONArray();
-        JA.put(aPar1);
+        JA.put(aPin);
         AddFunc(aName, JA);
     }
 
-    public void AddFuncArr(String aName, int aPar1, int aPar2) {
+    public void AddFuncVal(String aName, int aPin, int aValue) {
         JSONArray JA = new JSONArray();
-        JA.put(aPar1);
-        JA.put(aPar2);
+        JA.put(aPin);
+        JA.put(aValue);
         AddFunc(aName, JA);
     }
+
+    public void AddFuncVal(String aName, int [] aPins, int aValue) {
+        JSONArray JA1 = new JSONArray();
+        for (int i = 0; i < aPins.length; i++)
+            JA1.put(aPins[i]);
+
+        JSONArray JA2 = new JSONArray();
+        JA2.put(JA1);
+        JA2.put(aValue);
+        AddFunc(aName, JA2);
+    }
+
+    public void AddFuncVal(String aName, int [] aPins) {
+        JSONArray JA1 = new JSONArray();
+        for (int i = 0; i < aPins.length; i++)
+            JA1.put(aPins[i]);
+
+        JSONArray JA2 = new JSONArray();
+        JA2.put(JA1);
+        AddFunc(aName, JA2);
+    }
+
 
     public void SetPin(int aPin, int aValue) {
-        AddFuncArr("SetPin",  aPin, aValue);
+        AddFuncVal("SetPin",  aPin, aValue);
     }
 
     public void SetPwmOff(int aPin) {
-        AddFuncArr("SetPwmOff", aPin);
+        AddFuncVal("SetPwmOff", aPin);
     }
 
     public void SetPwmFreq(int aPin, int aValue) {
-        AddFuncArr("SetPwmFreq", aPin, aValue);
+        AddFuncVal("SetPwmFreq", aPin, aValue);
     }
 
     public void SetPwmDuty(int aPin, int aValue) {
-        AddFuncArr("SetPwmDuty", aPin, aValue);
+        AddFuncVal("SetPwmDuty", aPin, aValue);
     }
+
+    public void SetPinArr(int [] aPins, int aValue) { AddFuncVal("SetPinArr", aPins, aValue); }
+
+    public void SetPwmOffArr(int [] aPins) { AddFuncVal("SetPwmOffArr", aPins); }
 
     public boolean Check() {
         boolean Result = false;

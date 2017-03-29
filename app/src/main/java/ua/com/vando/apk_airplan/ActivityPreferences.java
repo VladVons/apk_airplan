@@ -51,6 +51,8 @@ public class ActivityPreferences extends PreferenceActivity implements Preferenc
             ActivityPreferences activityPreferences = new ActivityPreferences();
             activityPreferences.bindPreferenceSummaryToValue(findPreference("preference_server_address"));
             activityPreferences.bindPreferenceSummaryToValue(findPreference("preference_server_port"));
+            activityPreferences.bindPreferenceSummaryToValue(findPreference("preference_motor_min"));
+            activityPreferences.bindPreferenceSummaryToValue(findPreference("preference_motor_max"));
         }
     }
 }

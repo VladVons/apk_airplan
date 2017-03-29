@@ -23,7 +23,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="Misc">
+        android:title="Motor">
 
     </PreferenceCategory>
     <CheckBoxPreference
@@ -31,4 +31,21 @@
         android:key="preference_gravitybind"
         android:title="Gravity bind" />
 
+    <EditTextPreference
+        android:defaultValue="0"
+        android:dialogTitle="Min"
+        android:key="preference_motor_min"
+        android:maxLength="3"
+        android:numeric="integer"
+        android:singleLine="true"
+        android:title="Motor min" />
+
+    <EditTextPreference
+        android:defaultValue="999"
+        android:dialogTitle="Max"
+        android:key="preference_motor_max"
+        android:maxLength="3"
+        android:numeric="integer"
+        android:singleLine="true"
+        android:title="Motor max" />
 </PreferenceScreen>

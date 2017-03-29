@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -19,14 +20,14 @@ import org.json.JSONObject;
 import java.util.Locale;
 
 
-public class MainActivity extends AppCompatActivity {
+public class ActivityMain extends AppCompatActivity {
     private static int cLampRed = 15, cLampGreen = 12, cLampBlue = 13, cLampSys = 02;
     private static int cMotorDC1A = 12, cMotorDC1B = 13, cMotorDC2A = 14, cMotorDC2B = 15;
-    private static int cPreferencesCode = 1;
+    private static int cPreferencesId = 1;
 
     private boolean prefGravityBind;
-    private String  prefServer;
-    private int     prefPort;
+    private String  prefServerAddr;
+    private int     prefServerPort, prefMotorMin, prefMotorMax;
 
     private TextView txtInfo;
     private EditText edtSend;
@@ -34,12 +35,13 @@ public class MainActivity extends AppCompatActivity {
 
     SockClient sockClient;
     Gravity gravity;
+    FrmMotorDC frmMotorDC1, frmMotorDC2;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_client);
+        setContentView(R.layout.activity_main);
 
         txtInfo    = (TextView) findViewById(R.id.txtInfo);
         edtSend    = (EditText) findViewById(R.id.edtSend);
@@ -52,16 +54,17 @@ public class MainActivity extends AppCompatActivity {
         gravity = new Gravity(this);
         gravity.registerListener(GravityMotorDC);
 
-        sockClient = new SockClient(prefServer, prefPort);
+        sockClient = new SockClient(prefServerAddr, prefServerPort);
         sockClient.Check();
 
 
-        FrmMotorDC frmMotorDC;
-        frmMotorDC = new FrmMotorDC(this, R.id.txtMotor1, R.id.sbMotor1);
-        frmMotorDC.Init(cMotorDC1A, cMotorDC1B, sockClient);
+        frmMotorDC1 = new FrmMotorDC(this, R.id.txtMotor1, R.id.sbMotor1);
+        frmMotorDC1.Init(cMotorDC1A, cMotorDC1B, sockClient);
+        frmMotorDC1.SetRange(prefMotorMin, prefMotorMax);
 
-        frmMotorDC = new FrmMotorDC(this, R.id.txtMotor2, R.id.sbMotor2);
-        frmMotorDC.Init(cMotorDC2A, cMotorDC2B, sockClient);
+        frmMotorDC2 = new FrmMotorDC(this, R.id.txtMotor2, R.id.sbMotor2);
+        frmMotorDC2.Init(cMotorDC2A, cMotorDC2B, sockClient);
+        frmMotorDC2.SetRange(prefMotorMin, prefMotorMax);
 
         FrmLamp frmLamp;
         frmLamp = new FrmLamp(this, R.id.txtLampRed,   R.id.cbLampRed);
@@ -89,12 +92,18 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent Intent;
+
         int id = item.getItemId();
         if (id == R.id.action_preference) {
-            Intent Intent = new Intent(MainActivity.this, ActivityPreferences.class);
-            startActivityForResult(Intent, cPreferencesCode);
+            Intent = new Intent(ActivityMain.this, ActivityPreferences.class);
+            startActivityForResult(Intent, cPreferencesId);
+        } else if (id == R.id.action_about) {
+            Intent = new Intent(ActivityMain.this, ActivityAbout.class);
+            startActivity(Intent);
         } else if (id == R.id.action_exit) {
-            System.exit(0);        }
+            System.exit(0);
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -107,8 +116,26 @@ public class MainActivity extends AppCompatActivity {
         sockClient.Send();
     }
 
+    public void cbLampAllOnClick(View view) {
+        boolean Checked = ((CheckBox) view).isChecked();
+
+        CheckBox cb = (CheckBox) findViewById(R.id.cbLampRed);
+        cb.setChecked(Checked);
+        cb = (CheckBox) findViewById(R.id.cbLampGreen);
+        cb.setChecked(Checked);
+        cb = (CheckBox) findViewById(R.id.cbLampBlue);
+        cb.setChecked(Checked);
+        cb = (CheckBox) findViewById(R.id.cbLampSys);
+        cb.setChecked(Checked);
+
+        sockClient.Clear();
+        sockClient.SetPinArr(new int[] {cLampRed, cLampGreen, cLampBlue, cLampSys}, Checked ? 1 : 0);
+        sockClient.SetPwmOffArr(new int[] {cLampRed, cLampGreen, cLampBlue, cLampSys});
+        sockClient.Send();
+    }
+
     private GravityListener GravityMotorDC  = new GravityListener() {
-        public int MaxGravity = 10, MaxValue = 1023;
+        public int MaxGravity = 10, MaxValue = prefMotorMax;
 
         @Override
         public void doEvent(int aX, int aY) {
@@ -138,18 +165,27 @@ public class MainActivity extends AppCompatActivity {
         // ???
         //prefPort = Integer.parseInt(sharedPreferences.getInt("preference_server_port", 51016);
         String Value = sharedPreferences.getString("preference_server_port", "51015");
-        prefPort        = Integer.parseInt(Value);
+        prefServerPort   = Integer.parseInt(Value);
 
-        prefServer      = sharedPreferences.getString("preference_server_address", "192.168.4.1");
-        prefGravityBind = sharedPreferences.getBoolean("preference_gravitybind", false);
+        prefServerAddr   = sharedPreferences.getString("preference_server_address", "192.168.4.1");
+        prefGravityBind  = sharedPreferences.getBoolean("preference_gravitybind", false);
+
+        Value = sharedPreferences.getString("preference_motor_min", "0");
+        prefMotorMin   = Integer.parseInt(Value);
+
+        Value = sharedPreferences.getString("preference_motor_max", "999");
+        prefMotorMax   = Integer.parseInt(Value);
     }
 
     @Override
     // called from startActivityForResult
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == cPreferencesCode) {
+        if (requestCode == cPreferencesId) {
             LoadPreferences();
+
+            frmMotorDC1.SetRange(prefMotorMin, prefMotorMax);
+            frmMotorDC2.SetRange(prefMotorMin, prefMotorMax);
         }
     }
 
