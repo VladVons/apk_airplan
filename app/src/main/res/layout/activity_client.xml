@@ -266,7 +266,7 @@
             android:layout_weight="0.05" />
 
         <CheckBox
-            android:text="Blue"
+            android:text="Sys"
             android:layout_width="134dp"
             android:layout_height="wrap_content"
             android:id="@+id/cbLampSys"/>
