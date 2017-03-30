@@ -35,8 +35,8 @@ public class SockClient {
         Data = new JSONArray();
     }
 
-    public void Add(JSONObject aData) {
-        Data.put(aData);
+    public void Add(JSONObject aJO) {
+        Data.put(aJO);
     }
 
     public void AddFunc(String aName, JSONArray aArgs) {
@@ -44,66 +44,51 @@ public class SockClient {
         try {
             JO.put("Func", aName);
             JO.put("Args", aArgs);
-            Data.put(JO);
+            Add(JO);
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    public void AddFuncVal(String aName, int aPin) {
+    public void AddFunc(String aName, int [] aArgs) {
         JSONArray JA = new JSONArray();
-        JA.put(aPin);
+        for (int i = 0; i < aArgs.length; i++)
+            JA.put(aArgs[i]);
         AddFunc(aName, JA);
     }
 
-    public void AddFuncVal(String aName, int aPin, int aValue) {
-        JSONArray JA = new JSONArray();
-        JA.put(aPin);
-        JA.put(aValue);
-        AddFunc(aName, JA);
-    }
-
-    public void AddFuncVal(String aName, int [] aPins, int aValue) {
+    public void AddFuncArr(String aName, int [] aPins, int [] aArgs) {
         JSONArray JA1 = new JSONArray();
         for (int i = 0; i < aPins.length; i++)
             JA1.put(aPins[i]);
 
         JSONArray JA2 = new JSONArray();
         JA2.put(JA1);
-        JA2.put(aValue);
-        AddFunc(aName, JA2);
-    }
-
-    public void AddFuncVal(String aName, int [] aPins) {
-        JSONArray JA1 = new JSONArray();
-        for (int i = 0; i < aPins.length; i++)
-            JA1.put(aPins[i]);
-
-        JSONArray JA2 = new JSONArray();
-        JA2.put(JA1);
+        for (int i = 0; i < aArgs.length; i++)
+            JA2.put(aArgs[i]);
         AddFunc(aName, JA2);
     }
 
 
     public void SetPin(int aPin, int aValue) {
-        AddFuncVal("SetPin",  aPin, aValue);
+        AddFunc("SetPin",  new int [] { aPin, aValue});
     }
 
     public void SetPwmOff(int aPin) {
-        AddFuncVal("SetPwmOff", aPin);
+        AddFunc("SetPwmOff", new int [] {aPin});
     }
 
     public void SetPwmFreq(int aPin, int aValue) {
-        AddFuncVal("SetPwmFreq", aPin, aValue);
+        AddFunc("SetPwmFreq", new int [] {aPin, aValue});
     }
 
     public void SetPwmDuty(int aPin, int aValue) {
-        AddFuncVal("SetPwmDuty", aPin, aValue);
+        AddFunc("SetPwmDuty", new int [] {aPin, aValue});
     }
 
-    public void SetPinArr(int [] aPins, int aValue) { AddFuncVal("SetPinArr", aPins, aValue); }
+    public void SetPinArr(int [] aPins, int aValue) { AddFuncArr("SetPinArr", aPins, new int[] {aValue}); }
 
-    public void SetPwmOffArr(int [] aPins) { AddFuncVal("SetPwmOffArr", aPins); }
+    public void SetPwmOffArr(int [] aPins) { AddFuncArr("SetPwmOffArr", aPins, new int[]{}); }
 
     public boolean Check() {
         boolean Result = false;
@@ -112,68 +97,76 @@ public class SockClient {
     }
 
     public void Send() {
+        AddFunc("Print", new int [] {});
         new AsyncSend().execute(Data.toString().getBytes());
         Clear();
     }
 
-    public void OnReceive(String aString) {
-
-    }
-
-    private class AsyncCheck extends AsyncTask<Void, Void, Boolean> {
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            boolean Result = false;
+    private void OnReceive(JSONArray JA) {
+        for (int i = 0; i < JA.length(); i++) {
             try {
-                Result = InetAddress.getByName(Address).isReachable(1000);
-            } catch (IOException e) {
-                e.printStackTrace();
-                Log.i("Debug", e.getMessage());
-            }
-
-            try {
-                TimeUnit.SECONDS.sleep(1);
-            } catch (InterruptedException e) {
+                Object obj = JA.get(i);
+                String s1 = obj.toString();
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-            return true;
         }
     }
 
     private class AsyncSend extends AsyncTask<byte[], String, DatagramPacket> {
         @Override
         protected DatagramPacket doInBackground(byte[]... aParams) {
-            byte[] aData = aParams[0];
+            //Result = InetAddress.getByName(Address).isReachable(1000);
+            //TimeUnit.SECONDS.sleep(1);
+
             DatagramSocket Socket;
-            DatagramPacket Packet = null;
+            DatagramPacket PacketOut = null, PacketIn = null;
+
+            byte[] aData = aParams[0];
+
+            byte[] BufIn = new byte[1024];
+            PacketIn = new DatagramPacket(BufIn, BufIn.length);
 
             try {
                 InetAddress IAddress = InetAddress.getByName(Address);
-                Packet = new DatagramPacket(aData, aData.length, IAddress, Port);
+                PacketOut = new DatagramPacket(aData, aData.length, IAddress, Port);
 
                 Socket = new DatagramSocket();
                 Socket.setSoTimeout(200);
-                Socket.send(Packet);
-                //Socket.receive(Packet);
+                Socket.send(PacketOut);
+
+                Socket.receive(PacketIn);
             } catch (SocketException e) {
                 e.printStackTrace();
-                Log.i("Debug", e.getMessage());
+                //Log.i("Debug", e.getMessage());
             } catch (UnknownHostException e) {
                 e.printStackTrace();
-                Log.i("Debug", e.getMessage());
+                //Log.i("Debug", e.getMessage());
             } catch (IOException e) {
                 e.printStackTrace();
-                Log.i("Debug", e.getMessage());
+                //Log.i("Debug", e.getMessage());
             }
 
-            return Packet;
+            return PacketIn;
         }
 
         @Override
-        protected void onProgressUpdate(String... values) {
-            super.onProgressUpdate(values);
-            OnReceive(values[0]);
+        protected void onPostExecute(DatagramPacket result) {
+            super.onPostExecute(result);
+
+            String Result = "";
+            try {
+                Result = new String(result.getData(), "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                JSONArray JA = new JSONArray(Result);
+                OnReceive(JA);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
