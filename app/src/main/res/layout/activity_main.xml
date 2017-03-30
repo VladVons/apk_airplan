@@ -78,6 +78,14 @@
             android:layout_columnSpan="3"
             />
 
+        <CheckBox
+            android:id="@+id/cbMotorRev"
+            android:layout_width="134dp"
+            android:layout_height="wrap_content"
+            android:layout_columnSpan="3"
+            android:onClick="cbMotorRevOnClick"
+            android:text="Reverse" />
+
         <TextView
             android:text="Motor 1"
             android:layout_width="96dp"
@@ -203,7 +211,7 @@
             android:layout_height="wrap_content"
             android:layout_columnSpan="3"
             android:onClick="cbLampAllOnClick"
-            android:text="All Lamp" />
+            android:text="All Lamps" />
 
         <TextView
             android:text="Lamp (PIO 15)"

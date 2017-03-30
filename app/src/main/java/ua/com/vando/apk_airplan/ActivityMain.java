@@ -116,6 +116,12 @@ public class ActivityMain extends AppCompatActivity {
         sockClient.Send();
     }
 
+    public void cbMotorRevOnClick(View view) {
+        boolean Checked = ((CheckBox) view).isChecked();
+        frmMotorDC1.SetReverse(Checked);
+        frmMotorDC2.SetReverse(Checked);
+    }
+
     public void cbLampAllOnClick(View view) {
         boolean Checked = ((CheckBox) view).isChecked();
 

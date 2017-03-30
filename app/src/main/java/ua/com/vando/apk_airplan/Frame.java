@@ -85,9 +85,11 @@ class FrmMotorBase extends FrmBase implements SeekBar.OnSeekBarChangeListener{
 
 class FrmMotorDC extends FrmMotorBase {
     private int Min, Max;
+    private int Reverse, LastSpeed;
 
     public FrmMotorDC (Activity aActivity, int aTextViewID, int aSeekBarID) {
         super(aActivity, aTextViewID, aSeekBarID);
+        SetReverse(false);
         SetRange(0, 999);
     }
 
@@ -105,13 +107,16 @@ class FrmMotorDC extends FrmMotorBase {
         PinB = aPinB;
     }
 
-    @Override
-    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        super.onProgressChanged(seekBar, progress, fromUser);
+    public void SetReverse(boolean aValue) {
+        Reverse = aValue ? -1: 1;
+        SetSpin(LastSpeed * Reverse);
+    }
+
+    public void SetSpin(int aValue) {
         if (sockClient == null) return;
 
         int Pin_A, Pin_B;
-        if (progress > 0) {
+        if (aValue > 0) {
             Pin_A = PinA;
             Pin_B = PinB;
         }else{
@@ -119,11 +124,13 @@ class FrmMotorDC extends FrmMotorBase {
             Pin_B = PinA;
         }
 
-        int Speed = Math.abs(progress);
+        int Speed = Math.abs(aValue);
         if (Speed > 999)
             Speed = 999;
         if (Speed == 0)
             Speed = 1;
+        LastSpeed = Speed;
+
 
         sockClient.Clear();
         sockClient.SetPwmOff(Pin_B);
@@ -132,6 +139,12 @@ class FrmMotorDC extends FrmMotorBase {
         sockClient.SetPin(Pin_B, 0);
         sockClient.SetPin(Pin_A, 1);
         sockClient.Send();
+    }
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        super.onProgressChanged(seekBar, progress, fromUser);
+        SetSpin(progress * Reverse);
     }
 }
 
