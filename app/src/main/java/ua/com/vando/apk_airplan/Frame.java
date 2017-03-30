@@ -93,6 +93,12 @@ class FrmMotorDC extends FrmMotorBase {
         SetRange(0, 999);
     }
 
+    public void Init(int aPinA, int aPinB, SockClient aSockClient) {
+        sockClient = aSockClient;
+        PinA = aPinA;
+        PinB = aPinB;
+    }
+
     public void SetRange(int aMin, int aMax) {
         Min = aMin;
         Max = aMax;
@@ -101,10 +107,18 @@ class FrmMotorDC extends FrmMotorBase {
         TextView1.setText("Max =" + String.valueOf(Max));
     }
 
-    public void Init(int aPinA, int aPinB, SockClient aSockClient) {
-        sockClient = aSockClient;
-        PinA = aPinA;
-        PinB = aPinB;
+    public void Stop() {
+        TextView1.setText("Stop");
+
+        sockClient.Clear();
+        sockClient.SetPwmOffArr(new int[] {PinA, PinB});
+        sockClient.SetPinArr(new int[] {PinA, PinB}, 1);
+        sockClient.Send();
+    }
+
+    public void Start() {
+        TextView1.setText("Run");
+        SetSpin(LastSpeed * Reverse);
     }
 
     public void SetReverse(boolean aValue) {

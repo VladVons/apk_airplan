@@ -82,9 +82,22 @@
             android:id="@+id/cbMotorRev"
             android:layout_width="134dp"
             android:layout_height="wrap_content"
-            android:layout_columnSpan="3"
             android:onClick="cbMotorRevOnClick"
             android:text="Reverse" />
+
+        <Button
+            android:id="@+id/btnMotorStop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="btnMotorStopOnClick"
+            android:text="Stop"/>
+
+        <Button
+            android:id="@+id/btnMotorStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="btnMotorStartOnClick"
+            android:text="Start"/>
 
         <TextView
             android:text="Motor 1"
@@ -98,12 +111,14 @@
             android:layout_width="90dp"
             android:layout_height="wrap_content"
             android:id="@+id/txtMotor1"
+            android:layout_columnSpan="2"
             android:layout_weight="0.08" />
 
         <SeekBar
-            android:layout_width="170dp"
+            android:layout_width="371dp"
             android:layout_height="wrap_content"
             android:id="@+id/sbMotor1"
+            android:layout_columnSpan="3"
             android:layout_weight="1" />
 
         <TextView
@@ -118,12 +133,14 @@
             android:layout_width="91dp"
             android:layout_height="wrap_content"
             android:id="@+id/txtMotor2"
+            android:layout_columnSpan="2"
             android:layout_weight="0.08" />
 
         <SeekBar
             android:id="@+id/sbMotor2"
-            android:layout_width="169dp"
+            android:layout_width="371dp"
             android:layout_height="wrap_content"
+            android:layout_columnSpan="3"
             android:layout_weight="1" />
 
         <Space

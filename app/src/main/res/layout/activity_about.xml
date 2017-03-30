@@ -7,10 +7,10 @@
     android:orientation="vertical">
 
     <TextView
-        android:text="Ver 1.0"
+        android:id="@+id/txtVer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/txtVer" />
+        android:text="Ver 1.02" />
 
     <TextView
         android:text="VladVons@gmail.com"

@@ -122,6 +122,16 @@ public class ActivityMain extends AppCompatActivity {
         frmMotorDC2.SetReverse(Checked);
     }
 
+    public void btnMotorStopOnClick(View view) {
+        frmMotorDC1.Stop();
+        frmMotorDC2.Stop();
+    }
+
+    public void btnMotorStartOnClick(View view) {
+        frmMotorDC1.Start();
+        frmMotorDC2.Start();
+    }
+
     public void cbLampAllOnClick(View view) {
         boolean Checked = ((CheckBox) view).isChecked();
 
@@ -141,10 +151,12 @@ public class ActivityMain extends AppCompatActivity {
     }
 
     private GravityListener GravityMotorDC  = new GravityListener() {
-        public int MaxGravity = 10, MaxValue = prefMotorMax;
+        public int MaxGravity = 10;
 
         @Override
         public void doEvent(int aX, int aY) {
+            int MaxValue = prefMotorMax;
+
             int HalfGravity = MaxGravity / 2;
             int AY = Util.InRange(aY, -HalfGravity, HalfGravity);
             int AX = Util.InRange(aX, -HalfGravity, HalfGravity);
