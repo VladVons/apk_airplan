@@ -16,11 +16,18 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.nio.channels.DatagramChannel;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 // https://github.com/wouterverweirder/AIR-Mobile-UDP-Extension/blob/master/native/android/UDPSocketAndroidLibrary/src/be/aboutme/nativeExtensions/udp/UDPSocketAdapter.java
 
+interface SockReceiveListener {
+    public void doEvent(int aResult);
+}
+
 public class SockClient {
+    private List Listeners = new ArrayList();
     private String Address;
     private int Port;
     private JSONArray Data;
@@ -102,13 +109,18 @@ public class SockClient {
         Clear();
     }
 
-    private void OnReceive(JSONArray JA) {
+
+    private void OnReceive(String aJson) throws JSONException {
+        JSONArray JA = new JSONArray(aJson);
         for (int i = 0; i < JA.length(); i++) {
-            try {
-                Object obj = JA.get(i);
-                String s1 = obj.toString();
-            } catch (JSONException e) {
-                e.printStackTrace();
+            JSONObject JO = JA.getJSONObject(i);
+            String Func = JO.getString("Func");
+            String Func2 = "SetPwmDuty";
+            if (Func == Func2) {
+                int Result  = JO.getInt("Result");
+                for (Object name : Listeners) {
+                    ((SockReceiveListener)name).doEvent(Result);
+                }
             }
         }
     }
@@ -154,16 +166,11 @@ public class SockClient {
         protected void onPostExecute(DatagramPacket result) {
             super.onPostExecute(result);
 
-            String Result = "";
             try {
-                Result = new String(result.getData(), "UTF-8");
+                String Result = new String(result.getData(), "UTF-8");
+                OnReceive(Result);
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
-            }
-
-            try {
-                JSONArray JA = new JSONArray(Result);
-                OnReceive(JA);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
