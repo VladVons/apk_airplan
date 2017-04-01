@@ -9,3 +9,12 @@ Settings->About Phone->MIUI Version = click 7 Times
 Settings->Additional Settings->Developer options->Install via USB = ON
 Settings->Additional Settings->Developer options->Debbug->Verify apps over USB = ON
 Settings->Additional Settings->Privacy->Unknown Sources option = ON
+
+
+
+leave my one-line methods as i've typed them when reformating code:
+File > Settings > Editor > Code Style > Java
+Wrapping and Braces tab
+Keep when reformatting section
+Turn on the Simple methods in one line checkbox
+And it just go fine!

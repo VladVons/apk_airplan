@@ -6,11 +6,6 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.CheckBox;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-
 class FrmBase {
     protected TextView TextView1;
     protected Activity Activity1;
@@ -22,9 +17,9 @@ class FrmBase {
         TextView1 = (TextView) Activity1.findViewById(aTextViewID);
     }
 
-    public void Send () {
+    public void Send (Serial aSerial) {
         if (sockClient != null) {
-            sockClient.Send();
+            sockClient.Send(aSerial);
         }
     }
 
@@ -49,10 +44,10 @@ class FrmLamp extends FrmBase implements CheckBox.OnClickListener{
         boolean Checked = ((CheckBox) v).isChecked();
         TextView1.setText(String.valueOf(Checked));
 
-        sockClient.Clear();
-        sockClient.SetPwmOff(PinA);
-        sockClient.SetPin(PinA, Checked ? 1 : 0);
-        sockClient.Send();
+        Serial serial = new Serial();
+        serial.SetPwmOff(PinA);
+        serial.SetPin(PinA, Checked ? 1 : 0);
+        Send(serial);
     }
 }
 
@@ -110,10 +105,10 @@ class FrmMotorDC extends FrmMotorBase {
     public void Stop() {
         TextView1.setText("Stop");
 
-        sockClient.Clear();
-        sockClient.SetPwmOffArr(new int[] {PinA, PinB});
-        sockClient.SetPinArr(new int[] {PinA, PinB}, 1);
-        sockClient.Send();
+        Serial serial = new Serial();
+        serial.SetPwmOffArr(new int[] {PinA, PinB});
+        serial.SetPinArr(new int[] {PinA, PinB}, 1);
+        Send(serial);
     }
 
     public void Start() {
@@ -146,13 +141,13 @@ class FrmMotorDC extends FrmMotorBase {
         LastSpeed = Speed;
 
 
-        sockClient.Clear();
-        sockClient.SetPwmOff(Pin_B);
-        sockClient.SetPwmFreq(Pin_A, 100);
-        sockClient.SetPwmDuty(Pin_A, Speed);
-        sockClient.SetPin(Pin_B, 0);
-        sockClient.SetPin(Pin_A, 1);
-        sockClient.Send();
+        Serial serial = new Serial();
+        serial.SetPwmOff(Pin_B);
+        serial.SetPwmFreq(Pin_A, 100);
+        serial.SetPwmDuty(Pin_A, Speed);
+        serial.SetPin(Pin_B, 0);
+        serial.SetPin(Pin_A, 1);
+        Send(serial);
     }
 
     @Override

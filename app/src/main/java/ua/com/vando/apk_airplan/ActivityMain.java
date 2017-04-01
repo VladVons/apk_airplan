@@ -26,12 +26,12 @@ public class ActivityMain extends AppCompatActivity {
     private static int cPreferencesId = 1;
 
     private boolean prefGravityBind;
-    private String  prefServerAddr;
-    private int     prefServerPort, prefMotorMin, prefMotorMax;
+    private String prefServerAddr;
+    private int prefServerPort, prefMotorMin, prefMotorMax;
 
     private TextView txtInfo;
     private EditText edtSend;
-    private SeekBar  sbMotor1, sbMotor2;
+    private SeekBar sbMotor1, sbMotor2;
 
     SockClient sockClient;
     Gravity gravity;
@@ -43,11 +43,11 @@ public class ActivityMain extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        txtInfo    = (TextView) findViewById(R.id.txtInfo);
-        edtSend    = (EditText) findViewById(R.id.edtSend);
+        txtInfo = (TextView) findViewById(R.id.txtInfo);
+        edtSend = (EditText) findViewById(R.id.edtSend);
 
-        sbMotor1   = (SeekBar)  findViewById(R.id.sbMotor1);
-        sbMotor2   = (SeekBar)  findViewById(R.id.sbMotor2);
+        sbMotor1 = (SeekBar) findViewById(R.id.sbMotor1);
+        sbMotor2 = (SeekBar) findViewById(R.id.sbMotor2);
 
         LoadPreferences();
 
@@ -67,17 +67,21 @@ public class ActivityMain extends AppCompatActivity {
         frmMotorDC2.SetRange(prefMotorMin, prefMotorMax);
 
         FrmLamp frmLamp;
-        frmLamp = new FrmLamp(this, R.id.txtLampRed,   R.id.cbLampRed);
-        frmLamp.Init(cLampRed, sockClient);;
+        frmLamp = new FrmLamp(this, R.id.txtLampRed, R.id.cbLampRed);
+        frmLamp.Init(cLampRed, sockClient);
+        ;
 
         frmLamp = new FrmLamp(this, R.id.txtLampGreen, R.id.cbLampGreen);
-        frmLamp.Init(cLampGreen, sockClient);;
+        frmLamp.Init(cLampGreen, sockClient);
+        ;
 
-        frmLamp = new FrmLamp(this, R.id.txtLampBlue,  R.id.cbLampBlue);
-        frmLamp.Init(cLampBlue, sockClient);;
+        frmLamp = new FrmLamp(this, R.id.txtLampBlue, R.id.cbLampBlue);
+        frmLamp.Init(cLampBlue, sockClient);
+        ;
 
-        frmLamp = new FrmLamp(this, R.id.txtLampSys,  R.id.cbLampSys);
-        frmLamp.Init(cLampSys, sockClient);;
+        frmLamp = new FrmLamp(this, R.id.txtLampSys, R.id.cbLampSys);
+        frmLamp.Init(cLampSys, sockClient);
+        ;
 
         String IP = Util.GetOwnIP(this);
         IP = (IP == "" ? "No connection" : "Current IP " + IP);
@@ -111,9 +115,10 @@ public class ActivityMain extends AppCompatActivity {
     public void btnSendOnClick(View view) throws JSONException {
         String str = edtSend.getText().toString();
         JSONObject JO = new JSONObject(str);
-        sockClient.Clear();
-        sockClient.Add(JO);
-        sockClient.Send();
+
+        Serial serial = new Serial();
+        serial.Add(JO);
+        sockClient.Send(serial);
     }
 
     public void cbMotorRevOnClick(View view) {
@@ -123,8 +128,7 @@ public class ActivityMain extends AppCompatActivity {
     }
 
     public void btnMotorStopOnClick(View view) {
-        frmMotorDC1.Stop();
-        frmMotorDC2.Stop();
+        MotorStop();
     }
 
     public void btnMotorStartOnClick(View view) {
@@ -144,13 +148,13 @@ public class ActivityMain extends AppCompatActivity {
         cb = (CheckBox) findViewById(R.id.cbLampSys);
         cb.setChecked(Checked);
 
-        sockClient.Clear();
-        sockClient.SetPinArr(new int[] {cLampRed, cLampGreen, cLampBlue, cLampSys}, Checked ? 1 : 0);
-        sockClient.SetPwmOffArr(new int[] {cLampRed, cLampGreen, cLampBlue, cLampSys});
-        sockClient.Send();
+        Serial serial = new Serial();
+        serial.SetPinArr(new int[]{cLampRed, cLampGreen, cLampBlue, cLampSys}, Checked ? 1 : 0);
+        serial.SetPwmOffArr(new int[]{cLampRed, cLampGreen, cLampBlue, cLampSys});
+        sockClient.Send(serial);
     }
 
-    private GravityListener GravityMotorDC  = new GravityListener() {
+    private GravityListener GravityMotorDC = new GravityListener() {
         public int MaxGravity = 10;
 
         @Override
@@ -174,7 +178,7 @@ public class ActivityMain extends AppCompatActivity {
         }
     };
 
-    private void LoadPreferences(){
+    private void LoadPreferences() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         // clear all Preferences
@@ -183,16 +187,16 @@ public class ActivityMain extends AppCompatActivity {
         // ???
         //prefPort = Integer.parseInt(sharedPreferences.getInt("preference_server_port", 51016);
         String Value = sharedPreferences.getString("preference_server_port", "51015");
-        prefServerPort   = Integer.parseInt(Value);
+        prefServerPort = Integer.parseInt(Value);
 
-        prefServerAddr   = sharedPreferences.getString("preference_server_address", "192.168.4.1");
-        prefGravityBind  = sharedPreferences.getBoolean("preference_gravitybind", false);
+        prefServerAddr = sharedPreferences.getString("preference_server_address", "192.168.4.1");
+        prefGravityBind = sharedPreferences.getBoolean("preference_gravitybind", false);
 
         Value = sharedPreferences.getString("preference_motor_min", "0");
-        prefMotorMin   = Integer.parseInt(Value);
+        prefMotorMin = Integer.parseInt(Value);
 
         Value = sharedPreferences.getString("preference_motor_max", "999");
-        prefMotorMax   = Integer.parseInt(Value);
+        prefMotorMax = Integer.parseInt(Value);
     }
 
     @Override
@@ -217,10 +221,17 @@ public class ActivityMain extends AppCompatActivity {
     public void onStop() {
         super.onStop();
         gravity.Stop();
+        MotorStop();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
     }
+
+    public void MotorStop() {
+        frmMotorDC1.Stop();
+        frmMotorDC2.Stop();
+    }
 }
+
