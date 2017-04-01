@@ -115,8 +115,7 @@ public class SockClient {
         for (int i = 0; i < JA.length(); i++) {
             JSONObject JO = JA.getJSONObject(i);
             String Func = JO.getString("Func");
-            String Func2 = "SetPwmDuty";
-            if (Func == Func2) {
+            if (Func.equals("SetPwmDuty")) {
                 int Result  = JO.getInt("Result");
                 for (Object name : Listeners) {
                     ((SockReceiveListener)name).doEvent(Result);
