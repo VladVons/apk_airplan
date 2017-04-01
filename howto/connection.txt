@@ -13,8 +13,21 @@ Settings->Additional Settings->Privacy->Unknown Sources option = ON
 
 
 leave my one-line methods as i've typed them when reformating code:
+---
 File > Settings > Editor > Code Style > Java
 Wrapping and Braces tab
 Keep when reformatting section
 Turn on the Simple methods in one line checkbox
 And it just go fine!
+
+
+How can I get the latest version of ConstraintLayout for Android?
+----
+Look in the SDK Manager in Android Studio. 
+If you check the "Show Package Details" in the SDK Tools section, you should see all the available verions of ConstraintLayout 
+(under Support Repository -> ConstraintLayout for Android)
+
+
+Error:null value in entry: incrementalFolder=null
+---
+removing the .gradle directory in the root project directory will fix the problem.
