@@ -49,10 +49,10 @@ public class ActivityPreferences extends PreferenceActivity implements Preferenc
 
             // im a static class, so make an instance to parent
             ActivityPreferences activityPreferences = new ActivityPreferences();
-            activityPreferences.bindPreferenceSummaryToValue(findPreference("preference_server_address"));
-            activityPreferences.bindPreferenceSummaryToValue(findPreference("preference_server_port"));
-            activityPreferences.bindPreferenceSummaryToValue(findPreference("preference_motor_min"));
-            activityPreferences.bindPreferenceSummaryToValue(findPreference("preference_motor_max"));
+            activityPreferences.bindPreferenceSummaryToValue(findPreference("pref_server_address"));
+            activityPreferences.bindPreferenceSummaryToValue(findPreference("pref_server_port"));
+            activityPreferences.bindPreferenceSummaryToValue(findPreference("pref_motor_min"));
+            activityPreferences.bindPreferenceSummaryToValue(findPreference("pref_motor_max"));
         }
     }
 }

@@ -116,6 +116,13 @@ class FrmMotorDC extends FrmMotorBase {
         SetSpin(LastSpeed * Reverse);
     }
 
+    public void Start(boolean aStart) {
+        if (aStart)
+            Start();
+        else
+            Stop();
+    }
+
     public void SetReverse(boolean aValue) {
         Reverse = aValue ? -1: 1;
         SetSpin(LastSpeed * Reverse);
@@ -143,10 +150,12 @@ class FrmMotorDC extends FrmMotorBase {
 
         Serial serial = new Serial();
         serial.SetPwmOff(Pin_B);
+        serial.SetPin(Pin_B, 0);
+
         serial.SetPwmFreq(Pin_A, 100);
         serial.SetPwmDuty(Pin_A, Speed);
-        serial.SetPin(Pin_B, 0);
         serial.SetPin(Pin_A, 1);
+
         Send(serial);
     }
 

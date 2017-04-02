@@ -7,14 +7,14 @@
             android:defaultValue="192.168.4.1"
             android:dialogTitle="Address"
             android:inputType="textUri"
-            android:key="preference_server_address"
+            android:key="pref_server_address"
             android:singleLine="true"
             android:title="Server address" />
 
         <EditTextPreference
             android:defaultValue="51015"
             android:dialogTitle="Port"
-            android:key="preference_server_port"
+            android:key="pref_server_port"
             android:maxLength="5"
             android:numeric="integer"
             android:singleLine="true"
@@ -28,13 +28,18 @@
     </PreferenceCategory>
     <CheckBoxPreference
         android:defaultValue="false"
-        android:key="preference_gravitybind"
+        android:key="pref_gravitybind"
         android:title="Gravity bind" />
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="pref_motor_stoponexit"
+        android:title="Stop on exit" />
 
     <EditTextPreference
         android:defaultValue="0"
         android:dialogTitle="Min"
-        android:key="preference_motor_min"
+        android:key="pref_motor_min"
         android:maxLength="3"
         android:numeric="integer"
         android:singleLine="true"
@@ -43,7 +48,7 @@
     <EditTextPreference
         android:defaultValue="999"
         android:dialogTitle="Max"
-        android:key="preference_motor_max"
+        android:key="pref_motor_max"
         android:maxLength="3"
         android:numeric="integer"
         android:singleLine="true"
