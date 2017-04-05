@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
-    <PreferenceCategory
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+    <PreferenceScreen
+            android:key="pref_sub_server"
             android:title="Server">
 
         <EditTextPreference
@@ -19,38 +21,38 @@
             android:numeric="integer"
             android:singleLine="true"
             android:title="Server port" />
+    </PreferenceScreen>
 
-    </PreferenceCategory>
-
-    <PreferenceCategory
+    <PreferenceScreen
+        android:key="pref_sub_motor"
         android:title="Motor">
 
-    </PreferenceCategory>
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="pref_gravitybind"
-        android:title="Gravity bind" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_gravitybind"
+            android:title="Rotate gravity bind" />
 
-    <CheckBoxPreference
-        android:defaultValue="true"
-        android:key="pref_motor_stoponexit"
-        android:title="Stop on exit" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="pref_motor_stoponexit"
+            android:title="Stop on exit" />
 
-    <EditTextPreference
-        android:defaultValue="0"
-        android:dialogTitle="Min"
-        android:key="pref_motor_min"
-        android:maxLength="3"
-        android:numeric="integer"
-        android:singleLine="true"
-        android:title="Motor min" />
+        <EditTextPreference
+            android:defaultValue="0"
+            android:dialogTitle="Min"
+            android:key="pref_motor_min"
+            android:maxLength="3"
+            android:numeric="integer"
+            android:singleLine="true"
+            android:title="Rotate minimum" />
 
-    <EditTextPreference
-        android:defaultValue="999"
-        android:dialogTitle="Max"
-        android:key="pref_motor_max"
-        android:maxLength="3"
-        android:numeric="integer"
-        android:singleLine="true"
-        android:title="Motor max" />
+        <EditTextPreference
+            android:defaultValue="999"
+            android:dialogTitle="Max"
+            android:key="pref_motor_max"
+            android:maxLength="3"
+            android:numeric="integer"
+            android:singleLine="true"
+            android:title="Rotate maximum" />
+    </PreferenceScreen>
 </PreferenceScreen>
