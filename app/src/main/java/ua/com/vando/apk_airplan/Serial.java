@@ -6,22 +6,28 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Serial {
-    private JSONArray Data;
+    private JSONArray  mJA;
 
     public Serial() {
         Clear();
     }
 
     public void Clear() {
-        Data = new JSONArray();
+        mJA = new JSONArray();
     }
 
-    public String GetData() {
-        return Data.toString();
+    public String GetData(){
+        JSONObject JO = new JSONObject();
+        try {
+            JO.put("Data", mJA);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return JO.toString();
     }
 
     public void Add(JSONObject aJO) {
-        Data.put(aJO);
+        mJA.put(aJO);
     }
 
     public void AddFunc(String aName, JSONArray aArgs) {

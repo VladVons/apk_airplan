@@ -64,8 +64,8 @@ public class SockClient {
         JSONArray JA = new JSONArray(Data);
         for (int i = 0; i < JA.length(); i++) {
             JSONObject JO = JA.getJSONObject(i);
-            String Func = JO.getString("Func");
-            if (Func.equals("SetPwmDuty")) {
+            String ID = JO.getString("ID");
+            if (ID.equals("SetPwmDuty")) {
                 int Result  = JO.getInt("Result");
                 for (Object name : Listeners) {
                     ((SockReceiveListener)name).doEvent(Result);
