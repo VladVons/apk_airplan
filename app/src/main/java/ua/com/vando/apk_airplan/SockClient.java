@@ -30,7 +30,7 @@ public class SockClient {
     private List Listeners = new ArrayList();
     private String Address;
     private int Port;
-    private AsyncTimer ATimer;
+    //private AsyncTimer ATimer;
 
     public SockClient(String aAddress, int aPort) {
         Address = aAddress;
@@ -54,13 +54,26 @@ public class SockClient {
     }
 
     private void OnReceive(DatagramPacket aPacket) throws JSONException {
-        String Data = null;
+        //JSONParser parser;
+
+        String JsonStr = null;
         try {
-            Data = new String(aPacket.getData(), "UTF-8");
+            JsonStr = new String(aPacket.getData(), "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
+        JSONObject JO = new JSONObject(JsonStr);
+        JSONArray Data = JO.getJSONArray("Data");
+        for (int i = 0; i < Data.length(); i++) {
+            JSONObject Item = Data.getJSONObject(i);
+            String ID = JO.getString("ID");
+            //if (ID.equals("SetPwmDuty")) {
+
+        }
+
+
+        /*
         JSONArray JA = new JSONArray(Data);
         for (int i = 0; i < JA.length(); i++) {
             JSONObject JO = JA.getJSONObject(i);
@@ -72,26 +85,7 @@ public class SockClient {
                 }
             }
         }
-    }
-
-    private class AsyncTimer extends AsyncTask<Void, Integer, Void> {
-        @Override
-        protected Void doInBackground(Void... params) {
-            while (isCancelled() == false) {
-                try {
-                    TimeUnit.SECONDS.sleep(1);
-                    publishProgress(1);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            return null;
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-        }
+        */
     }
 
     private class AsyncSend extends AsyncTask<byte[], String, DatagramPacket> {
@@ -105,7 +99,7 @@ public class SockClient {
 
             byte[] aData = aParams[0];
 
-            byte[] BufIn = new byte[1024];
+            byte[] BufIn = new byte[2048];
             PacketIn = new DatagramPacket(BufIn, BufIn.length);
 
             try {
@@ -142,3 +136,25 @@ public class SockClient {
         }
     }
 }
+
+/*
+    private class AsyncTimer extends AsyncTask<Void, Integer, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+            while (isCancelled() == false) {
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                    publishProgress(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+        }
+    }
+*/

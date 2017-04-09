@@ -45,7 +45,7 @@ public class ActivityPreferences extends PreferenceActivity implements Preferenc
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
 
-            addPreferencesFromResource(R.xml.preferences);
+            addPreferencesFromResource(R.xml.preference_main);
 
             // im a static class, so make an instance to parent
             ActivityPreferences activityPreferences = new ActivityPreferences();

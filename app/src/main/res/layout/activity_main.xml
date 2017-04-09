@@ -32,7 +32,7 @@
             android:layout_weight="0.56"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text='{"Func":"SetPin", "Args":[12,1]}' />
+            android:text='{"Func":"GetInfo", "Args":[]}' />
 
         <Button
             android:id="@+id/btnSend"

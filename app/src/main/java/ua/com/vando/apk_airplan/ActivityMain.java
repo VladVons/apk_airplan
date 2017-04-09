@@ -61,7 +61,7 @@ public class ActivityMain extends AppCompatActivity {
         gravity.registerListener(GravityMotorDC);
 
         sockClient = new SockClient(prefServerAddr, prefServerPort);
-        sockClient.Check();
+        //sockClient.Check();
 
 
         frmMotorDC1 = new FrmMotorDC(this, R.id.txtMotor1, R.id.sbMotor1);
