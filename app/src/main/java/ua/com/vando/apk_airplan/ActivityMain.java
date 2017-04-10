@@ -121,7 +121,7 @@ public class ActivityMain extends AppCompatActivity {
         JSONObject JO = new JSONObject(str);
 
         Serial serial = new Serial();
-        serial.Add(JO);
+        serial.AddData(JO);
         sockClient.Send(serial);
     }
 

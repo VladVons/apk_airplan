@@ -6,28 +6,39 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Serial {
-    private JSONArray  mJA;
+    JSONObject mJO;
 
     public Serial() {
         Clear();
     }
 
     public void Clear() {
-        mJA = new JSONArray();
+        mJO = new JSONObject();
+        Add("Data", new JSONArray());
     }
 
     public String GetData(){
-        JSONObject JO = new JSONObject();
+        return mJO.toString();
+    }
+
+    public void Add(String aName, JSONObject aJO) {
         try {
-            JO.put("Data", mJA);
+            mJO.put(aName, aJO);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return JO.toString();
     }
 
-    public void Add(JSONObject aJO) {
-        mJA.put(aJO);
+    public void Add(String aName, JSONArray aJA) {
+        try {
+            mJO.put(aName, aJA);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void AddData(JSONObject aJO) throws JSONException {
+        mJO.getJSONArray("Data").put(aJO);
     }
 
     public void AddFunc(String aName, JSONArray aArgs) {
@@ -35,7 +46,7 @@ public class Serial {
         try {
             JO.put("Func", aName);
             JO.put("Args", aArgs);
-            Add(JO);
+            AddData(JO);
         } catch (JSONException e) {
             e.printStackTrace();
         }
