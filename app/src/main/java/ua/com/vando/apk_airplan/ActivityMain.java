@@ -24,6 +24,7 @@ import java.util.Locale;
 public class ActivityMain extends AppCompatActivity {
     private static int cLampRed = 15, cLampGreen = 12, cLampBlue = 13, cLampSys = 02;
     private static int cMotorDC1A = 12, cMotorDC1B = 13, cMotorDC2A = 14, cMotorDC2B = 15;
+    private static int cMotorServ1 = 5;
     private static int cPreferencesId = 1;
 
     private boolean prefGravityBind, prefMotorStopOnExit, MotorStarted = false;
@@ -32,13 +33,14 @@ public class ActivityMain extends AppCompatActivity {
 
     private TextView txtInfo;
     private EditText edtSend;
-    private SeekBar  sbMotor1, sbMotor2;
+    private SeekBar  sbMotorDC1, sbMotorDC2, sbMotorServ1;
     private Button   btnMotorStart;
     private CheckBox cbMotorRev;
 
     SockClient sockClient;
     Gravity gravity;
     FrmMotorDC frmMotorDC1, frmMotorDC2;
+    FrmMotorServ frmMotorServ1;
 
 
     @Override
@@ -49,8 +51,9 @@ public class ActivityMain extends AppCompatActivity {
         txtInfo = (TextView) findViewById(R.id.txtInfo);
         edtSend = (EditText) findViewById(R.id.edtSend);
 
-        sbMotor1 = (SeekBar) findViewById(R.id.sbMotor1);
-        sbMotor2 = (SeekBar) findViewById(R.id.sbMotor2);
+        sbMotorDC1   = (SeekBar) findViewById(R.id.sbMotorDC1);
+        sbMotorDC2   = (SeekBar) findViewById(R.id.sbMotorDC2);
+        sbMotorServ1 = (SeekBar) findViewById(R.id.sbMotorServ1);
         cbMotorRev = (CheckBox)  findViewById(R.id.cbMotorRev);
         btnMotorStart = (Button)  findViewById(R.id.btnMotorStart);
 
@@ -64,13 +67,17 @@ public class ActivityMain extends AppCompatActivity {
         //sockClient.Check();
 
 
-        frmMotorDC1 = new FrmMotorDC(this, R.id.txtMotor1, R.id.sbMotor1);
+        frmMotorDC1 = new FrmMotorDC(this, R.id.txtMotorDC1, R.id.sbMotorDC1);
         frmMotorDC1.Init(cMotorDC1A, cMotorDC1B, sockClient);
         frmMotorDC1.SetRange(prefMotorMin, prefMotorMax);
 
-        frmMotorDC2 = new FrmMotorDC(this, R.id.txtMotor2, R.id.sbMotor2);
+        frmMotorDC2 = new FrmMotorDC(this, R.id.txtMotorDC2, R.id.sbMotorDC2);
         frmMotorDC2.Init(cMotorDC2A, cMotorDC2B, sockClient);
         frmMotorDC2.SetRange(prefMotorMin, prefMotorMax);
+
+        frmMotorServ1 = new FrmMotorServ(this, R.id.txtMotorServ1, R.id.sbMotorServ1);
+        frmMotorServ1.Init(cMotorServ1, sockClient);
+        frmMotorServ1.SetRange(0, 200);
 
         FrmLamp frmLamp;
         frmLamp = new FrmLamp(this, R.id.txtLampRed, R.id.cbLampRed);
@@ -134,6 +141,10 @@ public class ActivityMain extends AppCompatActivity {
     public void btnMotorStartOnClick(View view) {
         MotorStarted = !MotorStarted;
         MotorStart(MotorStarted);
+
+        Serial serial = new Serial();
+        serial.SetLogLevel(0);
+        sockClient.Send(serial);
     }
 
     public void cbLampAllOnClick(View view) {
@@ -155,7 +166,7 @@ public class ActivityMain extends AppCompatActivity {
     }
 
     private GravityListener GravityMotorDC = new GravityListener() {
-        public int MaxGravity = 10;
+        public int MaxGravity = 100;
 
         @Override
         public void doEvent(int aX, int aY) {
@@ -167,12 +178,16 @@ public class ActivityMain extends AppCompatActivity {
 
             int ValueY = (MaxValue / 2) + (MaxValue / MaxGravity * AY);
             int ValueX = (MaxValue / MaxGravity * AX);
+            int Serv1  = (frmMotorServ1.GetMax() / 2) + (frmMotorServ1.GetMax() / MaxGravity * AX);
 
             if (prefGravityBind && MotorStarted) {
-                sbMotor1.setProgress(Util.InRange(ValueY + ValueX, 0, MaxValue));
-                sbMotor2.setProgress(Util.InRange(ValueY - ValueX, 0, MaxValue));
+                int DC1 = Util.InRange(ValueY + ValueX, 0, MaxValue);
+                int DC2 = Util.InRange(ValueY - ValueX, 0, MaxValue);
+                sbMotorDC1.setProgress(DC1);
+                sbMotorDC2.setProgress(DC2);
+                sbMotorServ1.setProgress(Serv1);
 
-                String Str = String.format(Locale.getDefault(), "X=%d, Y=%d", AX, AY);
+                String Str = String.format(Locale.getDefault(), "X=%d, Y=%d, DC1=%d, DC2=%d, Serv1=%d", AX, AY, DC1, DC2, Serv1);
                 txtInfo.setText(Str);
             }
         }
@@ -242,8 +257,9 @@ public class ActivityMain extends AppCompatActivity {
         }
 
         cbMotorRev.setEnabled(aStart);
-        sbMotor1.setEnabled(aStart);
-        sbMotor2.setEnabled(aStart);
+        sbMotorDC1.setEnabled(aStart);
+        sbMotorDC2.setEnabled(aStart);
+        sbMotorServ1.setEnabled(aStart);
         frmMotorDC1.Start(aStart);
         frmMotorDC2.Start(aStart);
     }

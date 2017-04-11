@@ -71,6 +71,10 @@ public class Serial {
         AddFunc(aName, JA2);
     }
 
+    public void SetLogLevel(int aValue) {
+        AddFunc("SetLogLevel", new int [] {aValue});
+    }
+
     public void GetPwmDuty() {
         AddFunc("GetPwmDuty", new int [] {});
     }

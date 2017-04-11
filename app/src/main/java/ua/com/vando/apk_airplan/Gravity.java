@@ -22,7 +22,7 @@ public class Gravity {
     private SensorManager mSensorManager;
     private Sensor mSensor;
     private int prevAX, prevAY;
-    public  int Accuracy = 1;
+    public  int Accuracy = 10;
 
 
     public Gravity (Activity aActivity) {
@@ -60,8 +60,6 @@ public class Gravity {
         }
 
         @Override
-        public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-        }
+        public void onAccuracyChanged(Sensor sensor, int accuracy) { }
     };
 }

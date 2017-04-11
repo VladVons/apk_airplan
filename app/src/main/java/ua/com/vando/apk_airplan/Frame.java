@@ -52,6 +52,8 @@ class FrmLamp extends FrmBase implements CheckBox.OnClickListener{
 }
 
 class FrmMotorBase extends FrmBase implements SeekBar.OnSeekBarChangeListener{
+    protected int Freq = 50;
+    protected int ValueMin, ValueMax, ValueLast;
     protected SeekBar SeekBar1;
 
     public FrmMotorBase (Activity aActivity, int aTextViewID, int aSeekBarID) {
@@ -61,45 +63,68 @@ class FrmMotorBase extends FrmBase implements SeekBar.OnSeekBarChangeListener{
         SeekBar1.setOnSeekBarChangeListener(this);
     }
 
+    public int GetMax() {
+        return ValueMax;
+    }
+
+    public void SetRange(int aMin, int aMax) {
+        ValueMin = aMin;
+        ValueMax = aMax;
+
+        SeekBar1.setMax(aMax);
+        TextView1.setText("Max =" + String.valueOf(ValueMax));
+    }
+
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         TextView1.setText(String.valueOf(progress));
     }
 
     @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {
+    public void onStartTrackingTouch(SeekBar seekBar) { }
 
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) { }
+}
+
+class FrmMotorServ extends FrmMotorBase {
+    public FrmMotorServ (Activity aActivity, int aTextViewID, int aSeekBarID) {
+        super(aActivity, aTextViewID, aSeekBarID);
+    }
+
+    public void SetValue(int aValue) {
+        int MotorMin = 26;
+        int MotorMax = 114;
+
+        aValue = Math.min(ValueMax, Math.max(ValueMin, aValue));
+        float Ratio = (float) (MotorMax - MotorMin) / (ValueMax - ValueMin);
+        int Value = (int) (MotorMin + ((aValue - ValueMin) * Ratio));
+
+        Serial serial = new Serial();
+        serial.SetPwmFreq(PinA, Freq);
+        serial.SetPwmDuty(PinA, Value);
+        Send(serial);
     }
 
     @Override
-    public void onStopTrackingTouch(SeekBar seekBar) {
-
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        super.onProgressChanged(seekBar, progress, fromUser);
+        SetValue(progress);
     }
 }
 
-
 class FrmMotorDC extends FrmMotorBase {
-    private int Min, Max;
-    private int Reverse, LastSpeed;
+    private int Reverse;
 
     public FrmMotorDC (Activity aActivity, int aTextViewID, int aSeekBarID) {
         super(aActivity, aTextViewID, aSeekBarID);
         SetReverse(false);
-        SetRange(0, 999);
     }
 
     public void Init(int aPinA, int aPinB, SockClient aSockClient) {
         sockClient = aSockClient;
         PinA = aPinA;
         PinB = aPinB;
-    }
-
-    public void SetRange(int aMin, int aMax) {
-        Min = aMin;
-        Max = aMax;
-
-        SeekBar1.setMax(aMax);
-        TextView1.setText("Max =" + String.valueOf(Max));
     }
 
     public void Stop() {
@@ -113,7 +138,7 @@ class FrmMotorDC extends FrmMotorBase {
 
     public void Start() {
         TextView1.setText("Run");
-        SetSpin(LastSpeed * Reverse);
+        SetSpin(ValueLast * Reverse);
     }
 
     public void Start(boolean aStart) {
@@ -125,7 +150,7 @@ class FrmMotorDC extends FrmMotorBase {
 
     public void SetReverse(boolean aValue) {
         Reverse = aValue ? -1: 1;
-        SetSpin(LastSpeed * Reverse);
+        SetSpin(ValueLast * Reverse);
     }
 
     public void SetSpin(int aValue) {
@@ -145,14 +170,14 @@ class FrmMotorDC extends FrmMotorBase {
             Speed = 999;
         if (Speed == 0)
             Speed = 1;
-        LastSpeed = Speed;
+        ValueLast = Speed;
 
 
         Serial serial = new Serial();
         serial.SetPwmOff(Pin_B);
         serial.SetPin(Pin_B, 0);
 
-        serial.SetPwmFreq(Pin_A, 100);
+        serial.SetPwmFreq(Pin_A, Freq);
         serial.SetPwmDuty(Pin_A, Speed);
         serial.SetPin(Pin_A, 1);
 
