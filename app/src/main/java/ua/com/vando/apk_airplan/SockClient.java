@@ -42,7 +42,7 @@ public class SockClient {
     }
 
     public void Send(Serial aSerial) {
-        aSerial.AddFunc("Print", new int [] {});
+        //aSerial.Log(1, "");
         String Data = aSerial.GetData();
         new AsyncSend().execute(Data.getBytes());
     }

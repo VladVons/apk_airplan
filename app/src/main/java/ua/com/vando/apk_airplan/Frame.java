@@ -53,7 +53,8 @@ class FrmLamp extends FrmBase implements CheckBox.OnClickListener{
 
 class FrmMotorBase extends FrmBase implements SeekBar.OnSeekBarChangeListener{
     protected int Freq = 50;
-    protected int ValueMin, ValueMax, ValueLast;
+    protected int ScrollMin, ScrollMax = 114;
+    protected int HardMin = 26, HardMax, ValueLast;
     protected SeekBar SeekBar1;
 
     public FrmMotorBase (Activity aActivity, int aTextViewID, int aSeekBarID) {
@@ -63,16 +64,21 @@ class FrmMotorBase extends FrmBase implements SeekBar.OnSeekBarChangeListener{
         SeekBar1.setOnSeekBarChangeListener(this);
     }
 
-    public int GetMax() {
-        return ValueMax;
+    public int GetScrollMax() {
+        return ScrollMax;
     }
 
-    public void SetRange(int aMin, int aMax) {
-        ValueMin = aMin;
-        ValueMax = aMax;
+    public void SetScrollRange(int aMin, int aMax) {
+        ScrollMin = aMin;
+        ScrollMax = aMax;
 
         SeekBar1.setMax(aMax);
-        TextView1.setText("Max =" + String.valueOf(ValueMax));
+        TextView1.setText("Max =" + String.valueOf(ScrollMax));
+    }
+
+    public void SetHardRange(int aMin, int aMax) {
+        HardMin = aMin;
+        HardMax = aMax;
     }
 
     @Override
@@ -93,12 +99,9 @@ class FrmMotorServ extends FrmMotorBase {
     }
 
     public void SetValue(int aValue) {
-        int MotorMin = 26;
-        int MotorMax = 114;
-
-        aValue = Math.min(ValueMax, Math.max(ValueMin, aValue));
-        float Ratio = (float) (MotorMax - MotorMin) / (ValueMax - ValueMin);
-        int Value = (int) (MotorMin + ((aValue - ValueMin) * Ratio));
+        aValue = Math.min(ScrollMax, Math.max(ScrollMin, aValue));
+        float Ratio = (float) (HardMax - HardMin) / (ScrollMax - ScrollMin);
+        int Value = (int) (HardMin + ((aValue - ScrollMin) * Ratio));
 
         Serial serial = new Serial();
         serial.SetPwmFreq(PinA, Freq);
@@ -131,8 +134,10 @@ class FrmMotorDC extends FrmMotorBase {
         TextView1.setText("Stop");
 
         Serial serial = new Serial();
-        serial.SetPwmOffArr(new int[] {PinA, PinB});
-        serial.SetPinArr(new int[] {PinA, PinB}, 1);
+        serial.SetPwmOff(PinA);
+        serial.SetPwmOff(PinB);
+        serial.SetPin(PinA, 1);
+        serial.SetPin(PinB, 1);
         Send(serial);
     }
 

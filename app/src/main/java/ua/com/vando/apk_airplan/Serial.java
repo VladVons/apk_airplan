@@ -75,6 +75,13 @@ public class Serial {
         AddFunc("SetLogLevel", new int [] {aValue});
     }
 
+    public void Log(int aLevel, String aMsg) {
+        JSONArray JA = new JSONArray();
+        JA.put(aLevel);
+        JA.put(aMsg);
+        AddFunc("Log", JA);
+    }
+
     public void GetPwmDuty() {
         AddFunc("GetPwmDuty", new int [] {});
     }
@@ -95,6 +102,7 @@ public class Serial {
         AddFunc("SetPwmDuty", new int [] {aPin, aValue});
     }
 
+/*
     public void SetPinArr(int [] aPins, int aValue) {
         AddFuncArr("SetPinArr", aPins, new int[] {aValue});
     }
@@ -102,4 +110,5 @@ public class Serial {
     public void SetPwmOffArr(int [] aPins) {
         AddFuncArr("SetPwmOffArr", aPins, new int[]{});
     }
+*/
 }

@@ -69,15 +69,16 @@ public class ActivityMain extends AppCompatActivity {
 
         frmMotorDC1 = new FrmMotorDC(this, R.id.txtMotorDC1, R.id.sbMotorDC1);
         frmMotorDC1.Init(cMotorDC1A, cMotorDC1B, sockClient);
-        frmMotorDC1.SetRange(prefMotorMin, prefMotorMax);
+        frmMotorDC1.SetScrollRange(prefMotorMin, prefMotorMax);
 
         frmMotorDC2 = new FrmMotorDC(this, R.id.txtMotorDC2, R.id.sbMotorDC2);
         frmMotorDC2.Init(cMotorDC2A, cMotorDC2B, sockClient);
-        frmMotorDC2.SetRange(prefMotorMin, prefMotorMax);
+        frmMotorDC2.SetScrollRange(prefMotorMin, prefMotorMax);
 
         frmMotorServ1 = new FrmMotorServ(this, R.id.txtMotorServ1, R.id.sbMotorServ1);
         frmMotorServ1.Init(cMotorServ1, sockClient);
-        frmMotorServ1.SetRange(0, 200);
+        frmMotorServ1.SetScrollRange(0, 200);
+        frmMotorServ1.SetHardRange(40, 100);
 
         FrmLamp frmLamp;
         frmLamp = new FrmLamp(this, R.id.txtLampRed, R.id.cbLampRed);
@@ -116,6 +117,9 @@ public class ActivityMain extends AppCompatActivity {
         } else if (id == R.id.action_about) {
             Intent = new Intent(ActivityMain.this, ActivityAbout.class);
             startActivity(Intent);
+        } else if (id == R.id.action_dialog_motor_dc) {
+            Intent = new Intent(ActivityMain.this, ActivityDialogMotorDC.class);
+            startActivity(Intent);
         } else if (id == R.id.action_exit) {
             System.exit(0);
         }
@@ -147,6 +151,7 @@ public class ActivityMain extends AppCompatActivity {
         sockClient.Send(serial);
     }
 
+/*
     public void cbLampAllOnClick(View view) {
         boolean Checked = ((CheckBox) view).isChecked();
 
@@ -164,6 +169,7 @@ public class ActivityMain extends AppCompatActivity {
         serial.SetPinArr(new int[]{cLampRed, cLampGreen, cLampBlue, cLampSys}, Checked ? 1 : 0);
         sockClient.Send(serial);
     }
+*/
 
     private GravityListener GravityMotorDC = new GravityListener() {
         public int MaxGravity = 100;
@@ -178,16 +184,18 @@ public class ActivityMain extends AppCompatActivity {
 
             int ValueY = (MaxValue / 2) + (MaxValue / MaxGravity * AY);
             int ValueX = (MaxValue / MaxGravity * AX);
-            int Serv1  = (frmMotorServ1.GetMax() / 2) + (frmMotorServ1.GetMax() / MaxGravity * AX);
+            int Serv1  = (frmMotorServ1.GetScrollMax() / 2) + (frmMotorServ1.GetScrollMax() / MaxGravity * AX);
+
+            sbMotorServ1.setProgress(Serv1);
 
             if (prefGravityBind && MotorStarted) {
                 int DC1 = Util.InRange(ValueY + ValueX, 0, MaxValue);
                 int DC2 = Util.InRange(ValueY - ValueX, 0, MaxValue);
                 sbMotorDC1.setProgress(DC1);
                 sbMotorDC2.setProgress(DC2);
-                sbMotorServ1.setProgress(Serv1);
 
-                String Str = String.format(Locale.getDefault(), "X=%d, Y=%d, DC1=%d, DC2=%d, Serv1=%d", AX, AY, DC1, DC2, Serv1);
+                //String Str = String.format(Locale.getDefault(), "X=%d, Y=%d, DC1=%d, DC2=%d, Serv1=%d", AX, AY, DC1, DC2, Serv1);
+                String Str = String.format(Locale.getDefault(), "X=%d, Y=%d", AX, AY);
                 txtInfo.setText(Str);
             }
         }
@@ -222,8 +230,8 @@ public class ActivityMain extends AppCompatActivity {
         if (requestCode == cPreferencesId) {
             LoadPreferences();
 
-            frmMotorDC1.SetRange(prefMotorMin, prefMotorMax);
-            frmMotorDC2.SetRange(prefMotorMin, prefMotorMax);
+            frmMotorDC1.SetScrollRange(prefMotorMin, prefMotorMax);
+            frmMotorDC2.SetScrollRange(prefMotorMin, prefMotorMax);
         }
     }
 

@@ -21,6 +21,7 @@
         </activity>
         <activity android:name=".ActivityPreferences" />
         <activity android:name=".ActivityAbout" />
+        <activity android:name=".ActivityDialogMotorDC"></activity>
     </application>
 
 </manifest>

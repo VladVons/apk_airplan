@@ -8,6 +8,9 @@
         android:id="@+id/action_about"
         android:title="About" />
     <item
+        android:id="@+id/action_dialog_motor_dc"
+        android:title="MotorDC" />
+    <item
         android:id="@+id/action_exit"
         android:title="Exit" />
 </menu>
