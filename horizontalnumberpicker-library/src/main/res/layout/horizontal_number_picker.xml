@@ -1,0 +1,44 @@
+<LinearLayout android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:orientation="horizontal">
+
+    <Button
+        android:id="@+id/button_minus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="-"
+        style="?android:attr/borderlessButtonStyle"
+        />
+
+
+    <EditText
+        android:id="@+id/text_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:ems="5"
+        android:gravity="center"
+        android:inputType="numberSigned|numberDecimal"
+        android:text="0" />
+
+    <Button
+        android:id="@+id/button_plus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="+"
+        style="?android:attr/borderlessButtonStyle"
+        />
+  </LinearLayout>
+
+  <SeekBar
+      android:id="@+id/sbRange"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content" />
+</LinearLayout>
