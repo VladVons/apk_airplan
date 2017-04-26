@@ -17,7 +17,7 @@ class FrmBase {
         TextView1 = (TextView) Activity1.findViewById(aTextViewID);
     }
 
-    public void Send (Serial aSerial) {
+    public void Send (Serialize aSerial) {
         if (sockClient != null) {
             sockClient.Send(aSerial);
         }
@@ -44,7 +44,7 @@ class FrmLamp extends FrmBase implements CheckBox.OnClickListener{
         boolean Checked = ((CheckBox) v).isChecked();
         TextView1.setText(String.valueOf(Checked));
 
-        Serial serial = new Serial();
+        Serialize serial = new Serialize();
         serial.SetPwmOff(PinA);
         serial.SetPin(PinA, Checked ? 1 : 0);
         Send(serial);
@@ -103,7 +103,7 @@ class FrmMotorServ extends FrmMotorBase {
         float Ratio = (float) (HardMax - HardMin) / (ScrollMax - ScrollMin);
         int Value = (int) (HardMin + ((aValue - ScrollMin) * Ratio));
 
-        Serial serial = new Serial();
+        Serialize serial = new Serialize();
         serial.SetPwmFreq(PinA, Freq);
         serial.SetPwmDuty(PinA, Value);
         Send(serial);
@@ -133,7 +133,7 @@ class FrmMotorDC extends FrmMotorBase {
     public void Stop() {
         TextView1.setText("Stop");
 
-        Serial serial = new Serial();
+        Serialize serial = new Serialize();
         serial.SetPwmOff(PinA);
         serial.SetPwmOff(PinB);
         serial.SetPin(PinA, 1);
@@ -178,7 +178,7 @@ class FrmMotorDC extends FrmMotorBase {
         ValueLast = Speed;
 
 
-        Serial serial = new Serial();
+        Serialize serial = new Serialize();
         serial.SetPwmOff(Pin_B);
         serial.SetPin(Pin_B, 0);
 

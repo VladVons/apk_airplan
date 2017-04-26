@@ -5,10 +5,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Serial {
+public class Serialize {
     JSONObject mJO;
 
-    public Serial() {
+    public Serialize() {
         Clear();
     }
 

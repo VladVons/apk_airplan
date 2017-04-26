@@ -41,7 +41,7 @@ public class SockClient {
         //ATimer.cancel(false);
     }
 
-    public void Send(Serial aSerial) {
+    public void Send(Serialize aSerial) {
         //aSerial.Log(1, "");
         String Data = aSerial.GetData();
         new AsyncSend().execute(Data.getBytes());

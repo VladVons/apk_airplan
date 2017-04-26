@@ -131,7 +131,7 @@ public class ActivityMain extends AppCompatActivity {
         String str = edtSend.getText().toString();
         JSONObject JO = new JSONObject(str);
 
-        Serial serial = new Serial();
+        Serialize serial = new Serialize();
         serial.AddData(JO);
         sockClient.Send(serial);
     }
@@ -146,7 +146,7 @@ public class ActivityMain extends AppCompatActivity {
         MotorStarted = !MotorStarted;
         MotorStart(MotorStarted);
 
-        Serial serial = new Serial();
+        Serialize serial = new Serialize();
         serial.SetLogLevel(0);
         sockClient.Send(serial);
     }
