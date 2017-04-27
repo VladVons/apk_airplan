@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/apk_airplan.iml" filepath="$PROJECT_DIR$/apk_airplan.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lib/horizontalnumberpicker-library/horizontalnumberpicker-library.iml" filepath="$PROJECT_DIR$/lib/horizontalnumberpicker-library/horizontalnumberpicker-library.iml" />
     </modules>
   </component>
 </project>

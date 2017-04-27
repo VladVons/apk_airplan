@@ -1,1 +1,2 @@
-include ':app'
+include ':app', ':horizontalnumberpicker-library'
+project(':horizontalnumberpicker-library').projectDir = new File('lib/horizontalnumberpicker-library')

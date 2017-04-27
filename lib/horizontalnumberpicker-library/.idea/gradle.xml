@@ -7,9 +7,9 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/lib/horizontalnumberpicker-library" />
+            <option value="/mnt/hdd/data1/Android/src_3th/HorizontalNumberPicker" />
+            <option value="/mnt/hdd/data1/Android/src_3th/HorizontalNumberPicker/horizontalnumberpicker-demo" />
+            <option value="/mnt/hdd/data1/Android/src_3th/HorizontalNumberPicker/horizontalnumberpicker-library" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

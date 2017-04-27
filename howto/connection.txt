@@ -31,3 +31,7 @@ If you check the "Show Package Details" in the SDK Tools section, you should see
 Error:null value in entry: incrementalFolder=null
 ---
 removing the .gradle directory in the root project directory will fix the problem.
+
+
+How do I add a library project:
+http://stackoverflow.com/questions/16588064/how-do-i-add-a-library-project-to-android-studio
