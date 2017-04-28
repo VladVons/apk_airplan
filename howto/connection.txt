@@ -35,3 +35,7 @@ removing the .gradle directory in the root project directory will fix the proble
 
 How do I add a library project:
 http://stackoverflow.com/questions/16588064/how-do-i-add-a-library-project-to-android-studio
+
+Cannot find symbol class in Android Studio
+http://stackoverflow.com/questions/28147013/cannot-find-symbol-class-in-android-studio
+It can happen if the library (be it a local module or external dependency) has a minifyEnabled true,
