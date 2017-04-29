@@ -1,5 +1,6 @@
 package ua.com.vando.apk_airplan;
 
+import android.app.DialogFragment;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -22,7 +23,9 @@ public class ActivityDialogMotorDC extends AppCompatActivity implements Horizont
 
     @Override
     public void onHorizontalNumberPickerChanged(HorizontalNumberPicker horizontalNumberPicker, int value) {
-        //Log.d("current value: " + Integer.toString(value));
         Log.d("current value:", String.valueOf(value));
+
+        DialogFragment dialogNumberPicker = new DialogNumberPicker();
+        dialogNumberPicker.show(getFragmentManager(), "MyDialog1");
     }
 }
