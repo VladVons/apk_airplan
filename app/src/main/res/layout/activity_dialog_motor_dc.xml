@@ -5,13 +5,4 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="ua.com.vando.apk_airplan.ActivityDialogMotorDC">
-
-
-    <com.hrules.horizontalnumberpicker.HorizontalNumberPicker
-        android:id="@+id/horizontal_number_picker1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="0dp" />
-
 </android.support.constraint.ConstraintLayout>

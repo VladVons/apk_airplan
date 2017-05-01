@@ -15,17 +15,17 @@ public class ActivityDialogMotorDC extends AppCompatActivity implements Horizont
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dialog_motor_dc);
 
-        HorizontalNumberPicker HorizontalNumberPicker1   = (HorizontalNumberPicker) findViewById(R.id.horizontal_number_picker1);
-        HorizontalNumberPicker1.setMinValue(-5);
-        HorizontalNumberPicker1.setMaxValue(5);
-        HorizontalNumberPicker1.setListener(this);
+        //HorizontalNumberPicker HorizontalNumberPicker1   = (HorizontalNumberPicker) findViewById(R.id.horizontal_number_picker1);
+        //HorizontalNumberPicker1.setMinValue(-5);
+        //HorizontalNumberPicker1.setMaxValue(5);
+        //HorizontalNumberPicker1.setListener(this);
+
+        DialogFragment dialogNumberPicker = new DialogNumberPicker();
+        dialogNumberPicker.show(getFragmentManager(), "MyDialog1");
     }
 
     @Override
     public void onHorizontalNumberPickerChanged(HorizontalNumberPicker horizontalNumberPicker, int value) {
         Log.d("current value:", String.valueOf(value));
-
-        DialogFragment dialogNumberPicker = new DialogNumberPicker();
-        dialogNumberPicker.show(getFragmentManager(), "MyDialog1");
     }
 }

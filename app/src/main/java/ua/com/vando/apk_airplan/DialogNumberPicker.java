@@ -7,16 +7,18 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 
-public class DialogNumberPicker extends DialogFragment  implements DialogInterface.OnClickListener {
+public class DialogNumberPicker extends DialogFragment implements DialogInterface.OnClickListener {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
-        AlertDialog.Builder ADBuilder = builder.setView(inflater.inflate(R.layout.dialog_number_picker, null));
+        View viewNP = inflater.inflate(R.layout.dialog_number_picker, null);
+        AlertDialog.Builder ADBuilder = builder.setView(viewNP);
         ADBuilder.setTitle("Title");
-        ADBuilder.setMessage("Body");
+        //ADBuilder.setMessage("Body");
         ADBuilder.setPositiveButton("OK", this);
         ADBuilder.setNegativeButton("Cancel", this);
         return builder.create();
@@ -28,11 +30,4 @@ public class DialogNumberPicker extends DialogFragment  implements DialogInterfa
             Log.d("x1", "BUTTON_POSITIVE");
         }
     }
-
-    @Override
-    public void onDismiss(DialogInterface dialog) {
-        super.onDismiss(dialog);
-        Log.d("x1", "onDismiss");
-    }
-
 }
