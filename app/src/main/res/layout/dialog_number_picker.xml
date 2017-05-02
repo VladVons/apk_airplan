@@ -12,7 +12,7 @@
         android:text="Link" />
 
     <com.hrules.horizontalnumberpicker.HorizontalNumberPicker
-        android:id="@+id/horizontal_number_picker1"
+        android:id="@+id/horizontal_number_picker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

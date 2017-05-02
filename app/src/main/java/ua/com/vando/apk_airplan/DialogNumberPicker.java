@@ -16,6 +16,10 @@ public class DialogNumberPicker extends DialogFragment implements DialogInterfac
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
         View viewNP = inflater.inflate(R.layout.dialog_number_picker, null);
+        //viewNP.findViewById(R.layout.horizontal_number_picker);
+        //viewNP.findViewById(R.layout.dialog_number_picker);
+        //viewNP.findViewById(1);
+
         AlertDialog.Builder ADBuilder = builder.setView(viewNP);
         ADBuilder.setTitle("Title");
         //ADBuilder.setMessage("Body");
