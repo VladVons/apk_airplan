@@ -1,6 +1,7 @@
 package ua.com.vando.apk_airplan;
 
 import android.app.DialogFragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -9,7 +10,7 @@ import com.hrules.horizontalnumberpicker.HorizontalNumberPicker;
 import com.hrules.horizontalnumberpicker.HorizontalNumberPickerListener;
 
 
-public class ActivityDialogMotorDC extends AppCompatActivity implements HorizontalNumberPickerListener {
+public class ActivityDialogMotorDC extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,12 +21,15 @@ public class ActivityDialogMotorDC extends AppCompatActivity implements Horizont
         //HorizontalNumberPicker1.setMaxValue(5);
         //HorizontalNumberPicker1.setListener(this);
 
-        DialogFragment dialogNumberPicker = new DialogNumberPicker();
+        DialogNumberPicker dialogNumberPicker = new DialogNumberPicker();
+        dialogNumberPicker.OnHorizontalNumberPicker = horizontalNumberPickerListener;
         dialogNumberPicker.show(getFragmentManager(), "MyDialog1");
     }
 
-    @Override
-    public void onHorizontalNumberPickerChanged(HorizontalNumberPicker horizontalNumberPicker, int value) {
-        Log.d("current value:", String.valueOf(value));
-    }
+    private HorizontalNumberPickerListener horizontalNumberPickerListener = new HorizontalNumberPickerListener() {
+        @Override
+        public void onHorizontalNumberPickerChanged(HorizontalNumberPicker horizontalNumberPicker, int value) {
+            Log.d("current value:", String.valueOf(value));
+        }
+    };
 }

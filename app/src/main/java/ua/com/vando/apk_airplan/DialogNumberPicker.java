@@ -8,19 +8,33 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.SeekBar;
+
+import com.hrules.horizontalnumberpicker.HorizontalNumberPicker;
+import com.hrules.horizontalnumberpicker.HorizontalNumberPickerListener;
+
+// http://stackoverflow.com/questions/10313382/how-to-get-elementsfindviewbyid-for-a-layout-which-is-dynamically-loadedsetvi
 
 public class DialogNumberPicker extends DialogFragment implements DialogInterface.OnClickListener {
+    private View viewNumberPicker;
+    private CheckBox cbLink;
+
+    public HorizontalNumberPickerListener OnHorizontalNumberPicker = null;
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
-        View viewNP = inflater.inflate(R.layout.dialog_number_picker, null);
-        //viewNP.findViewById(R.layout.horizontal_number_picker);
-        //viewNP.findViewById(R.layout.dialog_number_picker);
-        //viewNP.findViewById(1);
+        viewNumberPicker = inflater.inflate(R.layout.dialog_number_picker, null);
 
-        AlertDialog.Builder ADBuilder = builder.setView(viewNP);
+        cbLink = (CheckBox) viewNumberPicker.findViewById(R.id.cbLink);
+
+        HorizontalNumberPicker horizontalNumberPicker = (HorizontalNumberPicker) viewNumberPicker.findViewById(R.id.horizontal_number_picker);
+        horizontalNumberPicker.setListener(horizontalNumberPickerListener);
+
+        AlertDialog.Builder ADBuilder = builder.setView(viewNumberPicker);
         ADBuilder.setTitle("Title");
         //ADBuilder.setMessage("Body");
         ADBuilder.setPositiveButton("OK", this);
@@ -34,4 +48,13 @@ public class DialogNumberPicker extends DialogFragment implements DialogInterfac
             Log.d("x1", "BUTTON_POSITIVE");
         }
     }
+
+    private HorizontalNumberPickerListener horizontalNumberPickerListener = new HorizontalNumberPickerListener() {
+        @Override
+        public void onHorizontalNumberPickerChanged(HorizontalNumberPicker horizontalNumberPicker, int value) {
+            if (OnHorizontalNumberPicker != null && cbLink.isChecked()) {
+                OnHorizontalNumberPicker.onHorizontalNumberPickerChanged(horizontalNumberPicker, value);
+            }
+        }
+    };
 }
