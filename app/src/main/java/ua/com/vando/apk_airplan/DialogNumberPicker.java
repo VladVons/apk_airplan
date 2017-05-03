@@ -19,26 +19,24 @@ import com.hrules.horizontalnumberpicker.HorizontalNumberPickerListener;
 public class DialogNumberPicker extends DialogFragment implements DialogInterface.OnClickListener {
     private View viewNumberPicker;
     private CheckBox cbLink;
-
     public HorizontalNumberPickerListener OnHorizontalNumberPicker = null;
+    public AlertDialog.Builder alertDialog = null;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-
         viewNumberPicker = inflater.inflate(R.layout.dialog_number_picker, null);
-
         cbLink = (CheckBox) viewNumberPicker.findViewById(R.id.cbLink);
 
         HorizontalNumberPicker horizontalNumberPicker = (HorizontalNumberPicker) viewNumberPicker.findViewById(R.id.horizontal_number_picker);
         horizontalNumberPicker.setListener(horizontalNumberPickerListener);
 
-        AlertDialog.Builder ADBuilder = builder.setView(viewNumberPicker);
-        ADBuilder.setTitle("Title");
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        alertDialog = builder.setView(viewNumberPicker);
+        alertDialog.setTitle("Title");
         //ADBuilder.setMessage("Body");
-        ADBuilder.setPositiveButton("OK", this);
-        ADBuilder.setNegativeButton("Cancel", this);
+        alertDialog.setPositiveButton("OK", this);
+        alertDialog.setNegativeButton("Cancel", this);
         return builder.create();
     }
 
