@@ -1,6 +1,7 @@
 package ua.com.vando.apk_airplan;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,15 +26,17 @@ public class ActivityDialogMotorDC extends AppCompatActivity {
 
         DialogNumberPicker dialogNumberPicker = new DialogNumberPicker();
         dialogNumberPicker.OnHorizontalNumberPicker = horizontalNumberPickerListener;
+        dialogNumberPicker.OnDialogClick            = OnDialogClickListener;
         dialogNumberPicker.show(getFragmentManager(), "MyDialog1");
         //dialogNumberPicker.alertDialog.setPositiveButton("OK", OnClickListener);
-
     }
 
-    private DialogInterface.OnClickListener OnClickListener = new DialogInterface.OnClickListener() {
+    private DialogInterface.OnClickListener OnDialogClickListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
-            Log.d("Dialog OK:", String.valueOf(which));
+            if (which == Dialog.BUTTON_POSITIVE) {
+                Log.d("Dialog OK:", String.valueOf(which));
+            }
         }
     };
 

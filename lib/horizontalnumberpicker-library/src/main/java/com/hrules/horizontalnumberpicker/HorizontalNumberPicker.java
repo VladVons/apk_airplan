@@ -23,7 +23,7 @@ import static android.view.KeyEvent.KEYCODE_9;
 public class HorizontalNumberPicker extends LinearLayout {
   private final static int MIN_UPDATE_INTERVAL = 50;
 
-  private int curValue, maxValue, minValue;
+  private int curValue = 0, prevValue, maxValue, minValue;
   private int stepSize;
   private boolean showLeadingZeros;
 
@@ -231,8 +231,11 @@ public class HorizontalNumberPicker extends LinearLayout {
   }
 
   public void setValue(int aValue) {
-      SetValueCheck(aValue);
+    SetValueCheck(aValue);
+    if (prevValue != aValue) {
+      prevValue = aValue;
       setValue();
+    }
   }
 
   private void setValue() {
