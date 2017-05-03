@@ -45,6 +45,7 @@ public class DialogNumberPicker extends DialogFragment{
 
         HorizontalNumberPicker horizontalNumberPicker = (HorizontalNumberPicker) viewNumberPicker.findViewById(R.id.horizontal_number_picker);
         horizontalNumberPicker.setListener(horizontalNumberPickerListener);
+        horizontalNumberPicker.SetEdit(false);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         alertDialog = builder.setView(viewNumberPicker);

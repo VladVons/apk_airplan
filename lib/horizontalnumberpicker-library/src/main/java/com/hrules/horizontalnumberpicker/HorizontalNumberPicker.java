@@ -55,8 +55,7 @@ public class HorizontalNumberPicker extends LinearLayout {
   }
 
   @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-  public HorizontalNumberPicker(Context context, AttributeSet attrs, int defStyleAttr,
-      int defStyleRes) {
+  public HorizontalNumberPicker(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
     super(context, attrs, defStyleAttr, defStyleRes);
     init(context, attrs);
   }
@@ -187,6 +186,10 @@ public class HorizontalNumberPicker extends LinearLayout {
         return false;
       }
     });
+  }
+
+  public void SetEdit(boolean aValue) {
+    textValue.setEnabled(aValue);
   }
 
   public Button getButtonMinusView() {
